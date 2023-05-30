@@ -30,8 +30,8 @@ const Navbar = () => {
             Bookshelf
           </Link>
           <div className="hidden lg:flex justify-center items-center gap-5">
-            <Link to="/">All Books</Link>
-            <Link to="/">Blogs</Link>
+            <Link to="/" >All Books</Link>
+            <Link to="/blogs">Blogs</Link>
             <Link to="/">Contact</Link>
           </div>
         </div>
@@ -123,9 +123,9 @@ const Navbar = () => {
             }}
           >
             {isOpen ? (
-              <i className="fa-solid fa-xmark text-2xl border-2 px-2 rounded-md"></i>
+              <i className="fa-solid fa-xmark text-2xl border-2 px-2 rounded-md dark:text-white"></i>
             ) : (
-              <i className="fa-solid fa-bars text-2xl border-2 px-2 rounded-md"></i>
+              <i className="fa-solid fa-bars text-2xl border-2 px-2 rounded-md dark:text-white"></i>
             )}
               </div>
 
@@ -150,9 +150,12 @@ const Navbar = () => {
             setIsOpen(false);
           }}
         >
-          <Link to="/">All Books</Link>
-          <Link to="/">Blogs</Link>
-          <Link to="/">Contact</Link>
+          <Link to="/allbooks" className="hover:font-bold transition-all">All Books</Link>
+          <Link to="/blogs" className="hover:font-bold transition-all">Blogs</Link>
+          <Link to="/contact" className="hover:font-bold transition-all">Contact</Link>
+          <Link to="/login" className="hover:font-bold transition-all">
+            Login
+          </Link>
         </div>
       )}
     </div>
