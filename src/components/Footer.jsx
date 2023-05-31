@@ -9,9 +9,9 @@ const Footer = () => {
           <div className="mb-6 md:mb-0">
             <a href="/" className="flex items-center">
               <img
-               src="./assets/booklogo.png"
+               src="./assets/bookshelf-logo.png"
                className="mr-3 h-[150px] dark:text-white"
-               alt="FlowBite Logo"
+               alt="Bookshelf logo"
              />
               <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white font-Cherry text-[#4A596D]">
                 BookShelf
