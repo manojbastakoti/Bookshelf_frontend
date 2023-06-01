@@ -146,14 +146,20 @@ const Navbar = () => {
       {isOpen && (
         <div
           className="lg:hidden flex flex-col bg-white justify-center place-items-center gap-y-5 dark:bg-[#252525] dark:text-white"
-          onClick={() => {
-            setIsOpen(false);
-          }}
+
         >
-          <Link to="/allbooks" className="hover:font-bold transition-all">All Books</Link>
-          <Link to="/blogs" className="hover:font-bold transition-all">Blogs</Link>
-          <Link to="/contact" className="hover:font-bold transition-all">Contact</Link>
-          <Link to="/login" className="hover:font-bold transition-all">
+          <Link to="/allbooks" className="hover:font-bold transition-all"   onClick={() => {
+            setIsOpen(false);
+          }}>All Books</Link>
+          <Link to="/blogs" className="hover:font-bold transition-all"    onClick={() => {
+            setIsOpen(false);
+          }}>Blogs</Link>
+          <Link to="/contact" className="hover:font-bold transition-all"    onClick={() => {
+            setIsOpen(false);
+          }}>Contact</Link>
+          <Link to="/login" className="hover:font-bold transition-all"   onClick={() => {
+            setIsOpen(false);
+          }}>
             Login
           </Link>
         </div>
