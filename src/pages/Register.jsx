@@ -1,47 +1,53 @@
 import {useFormik } from "formik";
+// import { useState } from "react";
 import * as Yup from 'yup';
+import axios from "axios";
+import {Link, useNavigate} from "react-router-dom"
+
+const BASE_URL="http://localhost:8000/user"
 
 const initialValues = {
-  name: "Manoj Bastakoti",
+  name: "",
   email: "",
   password: "",
   confirmPassword: "",
-};
-const onSubmit = (values) => {
-  console.log("form data", values);
-};
-
-const validate = (values) => {
-  const errors = {};
-
-  if (!values.name) {
-    errors.name = "Required!";
-  }
-
-  if (!values.email) {
-    errors.email = "Required!";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-
-  if (!values.password) {
-    errors.password = "Required!";
-  }
-
-  if (!values.confirmPassword) {
-    errors.confirmPassword = "Required!";
-  }
-  return errors
 };
 
 const validationSchema= Yup.object({
   name:Yup.string().required("Required!"),
   email:Yup.string().email("Invalid email address!").required("Required!"),
   password:Yup.string().required("Required!"),
-  confirmPassword:Yup.string().required("Required!"),
+  confirmPassword:Yup.string().oneOf([Yup.ref("password")],"Password doesnot match!")
+  
 });
 
+
 const Register = () => {
+  const navigate= useNavigate();
+  const onSubmit = async(values,actions) => {
+    let formContent =Object.assign({},values)
+    delete formContent.confirmPassword;
+    try {
+      
+      const response= await axios({
+      method:"post",
+      url:BASE_URL+"/add",
+      data:formContent,
+    });
+
+    actions.setSubmitting(false);
+    console.log(response);
+
+    actions.resetForm();
+    navigate("/login");
+    } catch (error) {
+      console.log(error);
+      
+    } 
+  
+  };
+
+
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -63,9 +69,7 @@ const Register = () => {
           name="name"
           type="text"
           placeholder="Full Name"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.name}
+          {...formik.getFieldProps("name")}
         />
         {formik.touched.name && formik.errors.name ? (
           <div className="text-red-500 text-sm md:px-7 px-4">{formik.errors.name}</div>
@@ -78,9 +82,7 @@ const Register = () => {
           name="email"
           type="text"
           placeholder="Email"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
+          {...formik.getFieldProps("email")}
         />
         {formik.touched.email && formik.errors.email ? (
           <div className="text-red-500 text-sm md:px-7 px-4 ">{formik.errors.email}</div>
@@ -93,9 +95,7 @@ const Register = () => {
           name="password"
           type="text"
           placeholder="Password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
+          {...formik.getFieldProps("password")}
         />
         {formik.touched.password && formik.errors.password ? (
           <div className="text-red-500 text-sm md:px-7 px-4">{formik.errors.password}</div>
@@ -108,9 +108,7 @@ const Register = () => {
           name="confirmPassword"
           type="text"
           placeholder=" Confirm Password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.confirmPassword}
+          {...formik.getFieldProps("confirmPassword")}
         />
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
           <div className="text-red-500 text-sm md:px-7 px-4">{formik.errors.confirmPassword}</div>
@@ -125,11 +123,21 @@ const Register = () => {
       <div className="grid place-items-center">
         <button
           type="submit"
-          className="block w-[90%] mt-1 mx-auto px-3 py-3 rounded-md bg-blue-400 hover:bg-blue-500 hover:font-semibold "
+          className="block w-[90%] mt-1 mx-auto px-3 py-3 rounded-md bg-blue-400 hover:bg-blue-500 hover:font-semibold dark:text-white"
         >
           Register
         </button>
       </div>
+      <div className="refers grid place-items-center mt-3">
+
+                  <p className="dark:text-white">
+                    Already have an account?
+                    </p>
+                  <Link to="/login">
+                  <span className="text-blue-600">Login</span>
+                  </Link>
+      </div>
+          
     </form>
   );
 };
