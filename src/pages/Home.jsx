@@ -1,9 +1,14 @@
-
+import Footer from "../components/Footer";
+// import Login from "./Login";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  
+    <div className="min-h-screen">
+
+      <Footer/>
+    </div>
+    
+    
   )
 }
 

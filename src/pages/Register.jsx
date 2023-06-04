@@ -47,7 +47,6 @@ const Register = () => {
   
   };
 
-
   const formik = useFormik({
     initialValues,
     onSubmit,
