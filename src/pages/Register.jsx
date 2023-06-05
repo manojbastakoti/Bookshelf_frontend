@@ -3,6 +3,7 @@ import {useFormik } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom"
+import { useState } from "react";
 
 const BASE_URL="http://localhost:8000/user"
 
@@ -23,6 +24,8 @@ const validationSchema= Yup.object({
 
 
 const Register = () => {
+  const [error, setError] = useState(null);
+
   const navigate= useNavigate();
   const onSubmit = async(values,actions) => {
     let formContent =Object.assign({},values)
@@ -37,6 +40,12 @@ const Register = () => {
 
     actions.setSubmitting(false);
     console.log(response);
+
+    const data = response.data;
+    if (!data.success) {
+      setError(data.message);
+      return false;
+    }
 
     actions.resetForm();
     navigate("/login");
@@ -114,11 +123,11 @@ const Register = () => {
         ) : null}
       </div>
 
-      {/* <div className="error-box">
+      <div className="error-box md:px-7 px-4">
       <p className="text-red-500 font-semibold text-sm">
         {error ? error : ""}
       </p>
-    </div> */}
+    </div>
       <div className="grid place-items-center">
         <button
           type="submit"
