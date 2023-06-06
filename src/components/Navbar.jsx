@@ -89,6 +89,10 @@ const Navbar = () => {
           <Link to="/login" className="hover:font-bold transition-all">
             Login
           </Link>
+          <Link to="/cart" className="hover:font-bold transition-all">
+            
+          <i className="fa-solid fa-cart-shopping dark:text-white"></i>
+          </Link>
           <div className="icons dark:text-white">
             {theme === "light" ? (
               <div className="icon cursor-pointer" onClick={themeHandler}>
