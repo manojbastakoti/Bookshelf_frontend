@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="Nav max-w-screen-2xl mx-auto bg-white shadow-md px-4 py-3 flex items-center justify-between rounded-md  dark:bg-[#252525] dark:border-1 dark:border-[#757677]">
         {/* <img className="h-[80px] mr-3" src="./assets/bookshelf.png"/> */}
         <div className="flex logo items-center gap-5  dark:text-white">
-          <Link className="text-3xl font-Cherry" to="/">
+          <Link className="text-3xl font-Cherry" to="/home">
             Bookshelf
           </Link>
           <div className="hidden lg:flex justify-center items-center gap-5">

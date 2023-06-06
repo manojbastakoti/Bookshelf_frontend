@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import {Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 const BASE_URL = "http://localhost:8000/user";
 const Login = () => {
@@ -32,23 +33,23 @@ const Login = () => {
       });
       // actions.setSubmitting(false);
       console.log(response);
-      const data = response.data;
-      if (!data.success) {
-        setError(data.message);
-        return false;
+      if (response) {
+        toast.success(response.data.message, {
+          theme: "colored",
+        });
       }
-
       // actions.resetForm();
-      navigate("/blogs");
+      navigate("/home");
       
-    } catch (error) {
+    }catch(error) {
+      toast.error(error.response.data.message);
       console.log(error)
     }
 
   };
 
   return (
-    <form className="p-10 max-w-screen-sm mt-10 mx-auto bg-white  rounded-md dark:bg-[#252525] " onSubmit={loginUser}>
+    <form className="pt-10 max-w-md mt-10 mx-auto bg-white  rounded-md dark:bg-[#252525] " onSubmit={loginUser}>
       <h1 className="text-3xl font-bold mb-4 text-center dark:text-white">
         Login
       </h1>
@@ -78,8 +79,8 @@ const Login = () => {
           }))
         }
       />
-      <div className="error-box">
-        <p className="text-red-500 font-semibold text-sm md:px-7 px-4">
+      <div className="error-box pl-5">
+        <p className="text-red-500 font-semibold text-sm">
           {error ? error : ""}
         </p>
       </div>

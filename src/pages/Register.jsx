@@ -18,7 +18,7 @@ const validationSchema= Yup.object({
   name:Yup.string().required("Required!"),
   email:Yup.string().email("Invalid email address!").required("Required!"),
   password:Yup.string().required("Required!"),
-  confirmPassword:Yup.string().oneOf([Yup.ref("password")],"Password doesnot match!")
+  confirmPassword:Yup.string().oneOf([Yup.ref("password")],"Password doesnot match!").required("Required!")
   
 });
 
