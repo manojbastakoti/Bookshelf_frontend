@@ -169,7 +169,7 @@ const Navbar = () => {
         </div>
         
       )}
-      <div className="md:hidden w-full fixed bottom-0 mx-auto mb-0.5  bg-white px-4 py-5 flex items-center justify-between dark:bg-[#252525]">
+      <div className="md:hidden w-full fixed bottom-0 mx-auto mb-0  bg-white px-4 py-5 flex items-center justify-between dark:bg-[#252525]">
       <Link to="/" >All Books</Link>
             <Link to="/cart">
             <i className="fa-solid fa-cart-shopping dark:text-white"></i>

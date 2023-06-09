@@ -13,8 +13,8 @@ const Home_popular = () => {
   <Link to="/popularbooks" className="text-slate-400  font-semibold pr-2 ">Show All</Link>
 
     </div>
-  <hr className="my-4 border-gray-400 sm:mx-auto dark:border-gray-700 lg:my-2" />
-  <div className="blog-wrapper max-w-screen-2xl mx-auto grid md:grid-cols-4 gap-10">
+  <hr className="md:my-4 border-gray-400 sm:mx-auto dark:border-gray-700 lg:my-2" />
+  <div className="blog-wrapper max-w-screen-2xl mx-auto grid grid-cols-4 overflow-x-scroll gap-10">
     <PopularBooks/>
     <PopularBooks/>
     <PopularBooks/>

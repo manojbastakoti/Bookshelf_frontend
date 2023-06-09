@@ -16,7 +16,9 @@ function App() {
       <main className="max-w-screen-3xl mx-auto py-4">
         <Routes>
           <Route path="/" element={<Common />}>
-            <Route index path="/home" element={<Home/>} />
+            <Route index element={<Home/>} />
+            <Route path="/home" element={<Home/>} />
+
             <Route path="/blogs" element={<Blog/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
