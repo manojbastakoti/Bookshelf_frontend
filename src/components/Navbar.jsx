@@ -1,11 +1,42 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { UserContext } from "../context/UserContext";
+
+import { Avatar, Dropdown } from 'flowbite-react';
+
+const BASE_URL = "http://localhost:8000/profile_info";
 
 const Navbar = () => {
+  const {profile, setProfile} = useContext(UserContext);
+  const [token, setToken] = useState(Cookies.get("auth") ?? null);
   const [theme, setTheme] = useState(
     localStorage.getItem("mernTheme") ?? "light"
   );
+
+  useEffect(() => {
+    // console.log(Cookies.get("auth"));
+    const getUser = async () => {
+      const response = await axios({
+        method: "post",
+        url: BASE_URL,
+        data: {
+          token: token,
+        },
+        withCredentials: true,
+      });
+      // console.log(response);
+      const data = response.data;
+      console.log(data);
+      if (data.success) {
+        setProfile(data.data);
+      }
+    };
+    getUser();
+  }, []);
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -30,7 +61,7 @@ const Navbar = () => {
             Bookshelf
           </Link>
           <div className="hidden lg:flex justify-center items-center gap-5">
-            <Link to="/" >All Books</Link>
+            <Link to="/">All Books</Link>
             <Link to="/blogs">Blogs</Link>
             <Link to="/">Contact</Link>
           </div>
@@ -85,13 +116,8 @@ const Navbar = () => {
               <span className="sr-only">Search</span>
             </button>
           </form>
-
-          <Link to="/login" className="hover:font-bold transition-all">
-            Login
-          </Link>
           <Link to="/cart" className="hover:font-bold transition-all">
-            
-          <i className="fa-solid fa-cart-shopping dark:text-white"></i>
+            <i className="fa-solid fa-cart-shopping dark:text-white"></i>
           </Link>
           <div className="icons dark:text-white">
             {theme === "light" ? (
@@ -104,20 +130,29 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-            <svg
-              className="absolute w-10 h-10 text-gray-400 -left-1"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
+
+          {!profile && (
+            <Link to="/login" className="hover:font-bold transition-all">
+              Login
+            </Link>
+          )}
+
+          {profile && (
+            <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <svg
+                className="absolute w-10 h-10 text-gray-400 -left-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </div>
+          )}
         </div>
         <div className="mobile-view lg:hidden flex justify-end gap-5 items-center">
           <div
@@ -131,52 +166,80 @@ const Navbar = () => {
             ) : (
               <i className="fa-solid fa-bars text-2xl border-2 px-2 rounded-md dark:text-white"></i>
             )}
-              </div>
+          </div>
 
-            <div className="icons dark:text-white mobile-view-dark-mode">
-              {theme === "light" ? (
-                <div className="icon cursor-pointer" onClick={themeHandler}>
-                  <i className="fa-solid fa-moon"></i>
-                </div>
-              ) : (
-                <div className="icon cursor-pointer" onClick={themeHandler}>
-                  <i className="fa-solid fa-sun"></i>
-                </div>
-              )}
-            </div>
+          <div className="icons dark:text-white mobile-view-dark-mode">
+            {theme === "light" ? (
+              <div className="icon cursor-pointer" onClick={themeHandler}>
+                <i className="fa-solid fa-moon"></i>
+              </div>
+            ) : (
+              <div className="icon cursor-pointer" onClick={themeHandler}>
+                <i className="fa-solid fa-sun"></i>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {isOpen && (
-        <div
-          className="lg:hidden flex flex-col bg-white justify-center place-items-center gap-y-5 dark:bg-[#252525] dark:text-white"
+        <div className="lg:hidden flex flex-col bg-white justify-center place-items-center gap-y-5 dark:bg-[#252525] dark:text-white">
+          <Link
+            to="/allbooks"
+            className="hover:font-bold transition-all"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
+            All Books
+          </Link>
+          <Link
+            to="/blogs"
+            className="hover:font-bold transition-all"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
+            Blogs
+          </Link>
+          <Link
+            to="/contact"
+            className="hover:font-bold transition-all"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
+            Contact
+          </Link>
 
-        >
-          <Link to="/allbooks" className="hover:font-bold transition-all"   onClick={() => {
-            setIsOpen(false);
-          }}>All Books</Link>
-          <Link to="/blogs" className="hover:font-bold transition-all"    onClick={() => {
-            setIsOpen(false);
-          }}>Blogs</Link>
-          <Link to="/contact" className="hover:font-bold transition-all"    onClick={() => {
-            setIsOpen(false);
-          }}>Contact</Link>
-          <Link to="/login" className="hover:font-bold transition-all"   onClick={() => {
-            setIsOpen(false);
-          }}>
+          {!profile &&(
+
+          <Link
+            to="/login"
+            className="hover:font-bold transition-all"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
             Login
           </Link>
+          )}
         </div>
-        
       )}
       <div className="md:hidden w-full fixed bottom-0 mx-auto mb-0  bg-white px-4 py-5 flex items-center justify-between dark:bg-[#252525]">
-      <Link to="/" >All Books</Link>
-            <Link to="/cart">
-            <i className="fa-solid fa-cart-shopping dark:text-white"></i>
-            </Link>
-            <Link to="/">Contact</Link>
+        <Link to="/cart">
+          <i className="fa-solid fa-cart-shopping dark:text-white"></i>
+        </Link>
+        <Link to="/">
+        <i className="fa-solid fa-magnifying-glass dark:text-white"></i>
+        </Link>
+        {profile &&(
+        <Link to="/">
+        <i className="fa-solid fa-user dark:text-white"></i>
+        </Link>
+
+        )}
       </div>
-      
     </>
   );
 };
