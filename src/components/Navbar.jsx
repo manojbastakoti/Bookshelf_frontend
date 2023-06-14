@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../context/UserContext";
 
-import { Avatar, Dropdown } from 'flowbite-react';
 
 const BASE_URL = "http://localhost:8000/profile_info";
 
@@ -29,7 +28,7 @@ const Navbar = () => {
       });
       // console.log(response);
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       if (data.success) {
         setProfile(data.data);
       }
@@ -137,7 +136,7 @@ const Navbar = () => {
             </Link>
           )}
 
-          {profile && (
+          {profile &&(
             <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
               <svg
                 className="absolute w-10 h-10 text-gray-400 -left-1"
@@ -155,6 +154,17 @@ const Navbar = () => {
           )}
         </div>
         <div className="mobile-view lg:hidden flex justify-end gap-5 items-center">
+          <div className="icons dark:text-white mobile-view-dark-mode">
+            {theme === "light" ? (
+              <div className="icon cursor-pointer" onClick={themeHandler}>
+                <i className="fa-solid fa-moon fa-lg"></i>
+              </div>
+            ) : (
+              <div className="icon cursor-pointer" onClick={themeHandler}>
+                <i className="fa-solid fa-sun fa-lg"></i>
+              </div>
+            )}
+          </div>
           <div
             className="lg:hidden flex justify-end gap-5 items-center mobile-view-hamburger-menu"
             onClick={() => {
@@ -168,17 +178,6 @@ const Navbar = () => {
             )}
           </div>
 
-          <div className="icons dark:text-white mobile-view-dark-mode">
-            {theme === "light" ? (
-              <div className="icon cursor-pointer" onClick={themeHandler}>
-                <i className="fa-solid fa-moon"></i>
-              </div>
-            ) : (
-              <div className="icon cursor-pointer" onClick={themeHandler}>
-                <i className="fa-solid fa-sun"></i>
-              </div>
-            )}
-          </div>
         </div>
       </div>
 

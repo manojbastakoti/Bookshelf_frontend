@@ -1,8 +1,9 @@
 // import {useFormik } from 'formik';
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { UserContext } from '../context/UserContext';
 
 const BASE_URL = "http://localhost:8000/user";
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const {setProfile}=useContext(UserContext);
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -32,12 +34,22 @@ const Login = () => {
         withCredentials:true,
       });
       // actions.setSubmitting(false);
-      console.log(response);
-      if (response) {
+      // console.log(response);
+      const data =response.data;
+
+      if (!data.success) {
         toast.success(response.data.message, {
           theme: "colored",
         });
       }
+
+
+      setProfile({
+        name:data.data.name,
+        email:data.data.email,
+
+      })
+
       // actions.resetForm();
       navigate("/home");
       
