@@ -9,6 +9,7 @@ import Blog from "./pages/Blog";
 import PopularBooksLanding from "./pages/PopularBooksLanding";
 import Cart from "./pages/Cart";
 import { UserContextProvider } from "./context/UserContext";
+import CreateBlog from "./pages/CreateBlog";
 // import Footer from "./components/Footer";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register/>} />
             <Route path="/popularbooks" element={<PopularBooksLanding/>} />
             <Route path="/cart" element={<Cart/>} />
+            <Route path="/create-blog" element={<CreateBlog/>}/>
 
           </Route>
         </Routes>
