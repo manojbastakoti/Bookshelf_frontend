@@ -10,6 +10,8 @@ import PopularBooksLanding from "./pages/PopularBooksLanding";
 import Cart from "./pages/Cart";
 import { UserContextProvider } from "./context/UserContext";
 import CreateBlog from "./pages/CreateBlog";
+import BlogView from "./pages/BlogView";
+
 // import Footer from "./components/Footer";
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
             <Route path="/popularbooks" element={<PopularBooksLanding/>} />
             <Route path="/cart" element={<Cart/>} />
             <Route path="/create-blog" element={<CreateBlog/>}/>
+            <Route path="/blog/:id" element={<BlogView/>} />
 
           </Route>
         </Routes>

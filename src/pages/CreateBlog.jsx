@@ -2,8 +2,39 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css";
 
 const BASE_URL = "http://localhost:8000/blog/add";
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image"],
+    ["clean"],
+  ],
+};
+
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+];
 
 const CreateBlog = () => {
   const [input, setInput] = useState({
@@ -58,7 +89,7 @@ const CreateBlog = () => {
   };
 
   return (
-    <form className="pt-[50px] max-w-sm mx-auto" onSubmit={postBlog}>
+    <form className="pt-[50px] max-w-xl mx-auto" onSubmit={postBlog}>
       <h1 className="text-3xl font-bold text-center mb-[20px] dark:text-white">
         Create Blog
       </h1>
@@ -72,21 +103,6 @@ const CreateBlog = () => {
           setInput((prev) => ({
             title: e.target.value,
             description: prev.description,
-            author: prev.author,
-            image: prev.image,
-          }))
-        }
-      />
-      <textarea
-        className="block w-[100%] outline-none py-[10px] px-[10px] rounded-md mb-3"
-        type="text"
-        name="description"
-        placeholder="Description"
-        value={input.description}
-        onChange={(e) =>
-          setInput((prev) => ({
-            title: prev.title,
-            description: e.target.value,
             author: prev.author,
             image: prev.image,
           }))
@@ -108,7 +124,7 @@ const CreateBlog = () => {
         }
       />
       <input
-        className="block w-[100%] outline-none py-[10px] px-[10px] rounded-md mb-3 bg-white"
+        className="block w-[100%] outline-none py-[10px] px-[25px]  rounded-md mb-3 bg-white"
         type="file"
         name="image"
         onChange={(e) => {
@@ -121,6 +137,37 @@ const CreateBlog = () => {
           }));
         }}
       />
+        {/* <textarea
+          className="block w-[100%] outline-none py-[10px] px-[10px] rounded-md mb-3"
+          type="text"
+          name="description"
+          placeholder="Description"
+          value={input.description}
+          onChange={(e) =>
+            setInput((prev) => ({
+              title: prev.title,
+              description: e.target.value,
+              author: prev.author,
+              image: prev.image,
+            }))
+          }
+        /> */}
+
+<ReactQuill
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={input.description}
+        onChange={(value) =>
+          setInput((prev) => ({
+            title: prev.title,
+            description: value,
+            author: prev.author,
+            image: prev.image,
+          }))
+        }
+      />
+
       <div className="error-box">
         <p className="text-red-500 font-semibold text-sm">
           {error ? error : ""}
