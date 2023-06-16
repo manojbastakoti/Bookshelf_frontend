@@ -2,8 +2,12 @@ import react from "react";
 import { Link } from "react-router-dom"
 
 const BASE_URL = "http://localhost:8000/";
+const truncateText = (text, length) => {
+  if (text.length <= length) return text;
+  return text.substring(0, length) + "...";
+};
 
-function Post({id,title,description,author,image,createdAt}){
+function Post({id,title,introduction,author,image,createdAt}){
   return (
          <div className="post grid grid-row-2 mt-5  bg-white dark:bg-[#252525] shadow-md rounded-md">
     <div className="top-box mb-2">
@@ -15,11 +19,13 @@ function Post({id,title,description,author,image,createdAt}){
     </div>
     <div className="bottom-box pl-8 pr-8 mb-3">
       <div className="title">
-        <h1 className="text-xl font-bold dark:text-white">{title}</h1>
+        <h1 className="text-xl font-bold dark:text-white">{truncateText(title,20)}</h1>
       </div>
       <div className="info">
-        <p className="dark:text-white">{description}</p>
-      </div>
+          <p className="dark:text-[#ffffff]">
+          {truncateText(introduction,50)}
+          </p>
+        </div>
       <div className="date py-1">
         <p className="italic text-slate-500">Posted:<span>{createdAt}</span></p>
       </div>

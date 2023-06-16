@@ -45,6 +45,7 @@ const Login = () => {
 
 
       setProfile({
+        user_id: data.data.user_id,
         name:data.data.name,
         email:data.data.email,
 

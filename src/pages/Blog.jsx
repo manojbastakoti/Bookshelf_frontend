@@ -24,7 +24,7 @@ const{profile}=useContext(UserContext)
       const data = response.data;
       console.log(data);
       setPosts(data.data);
-      console.log(posts)
+      // console.log(posts)
       
     }
     getBlogs();
@@ -34,7 +34,7 @@ const{profile}=useContext(UserContext)
     <>
   <div className="create-button max-w-screen-2xl mx-auto mt-5 mb-2 flex justify-end">
     {profile &&(
-      <Link to="/create-blog" className="bg-blue-500  hover:bg-blue-600 p-4 rounded-md text-lg dark:text-white">Create Blog</Link>
+      <Link to="/create-blog" className="bg-blue-500  hover:bg-blue-600 p-3 rounded-md text-lg dark:text-white">Create Blog</Link>
     )}
 
   </div>
