@@ -49,6 +49,10 @@ const Navbar = () => {
   const themeHandler = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+  const logOut = () => {
+    Cookies.remove("auth");
+    setProfile(null);
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -137,24 +141,27 @@ const Navbar = () => {
           )}
 
           {profile &&(
+            <>
+            <div className=" pt-2">
 
-
-            <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 " >
-              <i className="fa-solid fa-user fa-lg absolute w-10 h-10 top-3.5 left-[7px]"></i>
-              {/* <svg
-                className="absolute w-10 h-10 text-gray-400 -left-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clipRule="evenodd"
-                ></path>
-              </svg> */}
+<div className="dropdown inline-block relative">
+  <button className="">
+            <div className="relative w-8 h-8 overflow-hidden  rounded-full dark:bg-gray-600 " >
+              <i className="fa-solid fa-user fa-lg absolute w-10 h-10 top-3.5 -left-[4.5px]"></i>
             </div>
+    {/* <span className="mr-1">Dropdown</span> */}
+    {/* <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg> */}
+  </button>
+  <div className="dropdown-menu absolute z-50 hidden flex-col text-gray-700  bg-white w-40">
+    <Link className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap" href="#">View Profile</Link>
+    <Link className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap" href="#" onClick={() => logOut()}>Log Out</Link>
+  </div>
+</div>
+
+</div>
+            </>
           )}
+
         </div>
         <div className="mobile-view lg:hidden flex justify-end gap-5 items-center">
           <div className="icons dark:text-white mobile-view-dark-mode">
@@ -228,7 +235,7 @@ const Navbar = () => {
           )}
         </div>
       )}
-      <div className="md:hidden w-full fixed bottom-0 mx-auto  bg-white px-4 py-5 flex items-center justify-between dark:bg-[#252525]">
+      <div className="md:hidden w-full fixed bottom-0 mx-auto z-50 bg-white px-4 py-5 flex items-center justify-between dark:bg-[#252525]">
         <Link to="/cart">
           <i className="fa-solid fa-cart-shopping dark:text-white"></i>
         </Link>

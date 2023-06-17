@@ -15,3 +15,6 @@ body{
     min-height: 200px;
   }
 
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }

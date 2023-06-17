@@ -2,6 +2,7 @@ import axios from "axios";
 import  { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment/moment";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from '../context/UserContext';
 
 
@@ -13,6 +14,7 @@ const BlogView = () => {
   console.log(profile);
   console.log(blog)
   const param = useParams();
+  const navigate = useNavigate();
   // console.log(param);
   useEffect(() => {
     const getSingleBlog = async () => {
@@ -28,6 +30,19 @@ const BlogView = () => {
     };
     getSingleBlog();
   }, []);
+
+  const deleteArticle = async () => {
+    const response = await axios({
+      method: "delete",
+      url: BASE_URL + "blog/delete/" + param.id,
+      withCredentials: true,
+    });
+    const data = response.data;
+    if (data.success) {
+      navigate("/");
+    }
+  };
+  
 
   if (!blog) return "";
 
@@ -47,9 +62,12 @@ const BlogView = () => {
         <p className="font-bold dark:text-white">
           Posted by: {blog.author}{" "}
         </p>
-        <div className="action flex gap-3">
+
+        {profile?.user_id === blog?.author_id && (
+
+          <div className="action flex gap-3">
             <Link
-              to=""
+              to={`/edit-blog/${blog._id}`}
               className="min-w-[80px] py-2 px-4 bg-[#2980b9] text-white rounded-md font-semibold"
             >
               <i className="fa-regular fa-pen-to-square mr-1"></i>
@@ -58,11 +76,14 @@ const BlogView = () => {
             <Link
               to=""
               className="min-w-[80px] py-2 px-4 bg-[#c0392b] text-white rounded-md font-semibold"
-            >
+              onClick={() =>
+                window.confirm("Are you sure?") ? deleteArticle() : ""
+              }>
               <i className="fa-solid fa-trash mr-1"></i>
               Delete
             </Link>
             </div>
+        )}
         </div>
       <div className="image mb-4 grid items-center justify-center">
         <img

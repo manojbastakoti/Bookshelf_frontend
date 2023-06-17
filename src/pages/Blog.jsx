@@ -38,7 +38,7 @@ const{profile}=useContext(UserContext)
     )}
 
   </div>
-    <div className="blog-wrapper max-w-screen-2xl mx-auto grid md:grid-cols-2 gap-10">
+    <div className="blog-wrapper max-w-screen-2xl mx-auto grid md:grid-cols-2 gap-10 mb-16">
       {posts.map((post,index)=>(
         <Post {...post} key={index}/>
       ))}

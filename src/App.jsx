@@ -11,6 +11,7 @@ import Cart from "./pages/Cart";
 import { UserContextProvider } from "./context/UserContext";
 import CreateBlog from "./pages/CreateBlog";
 import BlogView from "./pages/BlogView";
+import EditBlog from "./pages/EditBlog";
 
 // import Footer from "./components/Footer";
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/cart" element={<Cart/>} />
             <Route path="/create-blog" element={<CreateBlog/>}/>
             <Route path="/blog/:id" element={<BlogView/>} />
+            <Route path="/edit-blog/:id" element={<EditBlog />} />
 
           </Route>
         </Routes>
