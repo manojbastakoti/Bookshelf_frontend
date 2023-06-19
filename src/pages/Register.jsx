@@ -25,6 +25,9 @@ const validationSchema= Yup.object({
 
 const Register = () => {
   const [error, setError] = useState(null);
+  const [passwordPreview, setPasswordPreview] = useState(false);
+  const [confirmpasswordPreview, setconfirmPasswordPreview] = useState(false);
+
 
   const navigate= useNavigate();
   const onSubmit = async(values,actions) => {
@@ -97,27 +100,49 @@ const Register = () => {
         ) : null}
       </div>
 
-      <div className="form-control mb-3">
+      <div className="form-control mb-3 relative">
         <input
           className="block w-[90%] mx-auto px-3 py-3 rounded-md outline-none mb-3  dark:bg-gray-700 dark:text-white"
           name="password"
-          type="text"
+          type={passwordPreview ? "text" : "password"}
           placeholder="Password"
           {...formik.getFieldProps("password")}
         />
+         <div
+          className="icon absolute top-3 right-10 cursor-pointer"
+          onClick={() => setPasswordPreview(!passwordPreview)}
+        >
+          {passwordPreview ? (
+            <i className="fa-solid fa-eye text-sm"></i>
+          ) : (
+            <i className="fa-solid fa-eye-slash text-sm"></i>
+          )}
+        </div>
+
         {formik.touched.password && formik.errors.password ? (
           <div className="text-red-500 text-sm md:px-7 px-4">{formik.errors.password}</div>
         ) : null}
       </div>
 
-      <div className="form-control mb-3">
+      <div className="form-control mb-3 relative">
         <input
           className="block w-[90%] mx-auto px-3 py-3 rounded-md outline-none mb-3  dark:bg-gray-700 dark:text-white "
           name="confirmPassword"
-          type="text"
+          type={confirmpasswordPreview ? "text" : "password"}
           placeholder=" Confirm Password"
           {...formik.getFieldProps("confirmPassword")}
         />
+            <div
+          className="icon absolute top-3 right-10 cursor-pointer"
+          onClick={() => setconfirmPasswordPreview(!confirmpasswordPreview)}
+        >
+          {confirmpasswordPreview ? (
+            <i className="fa-solid fa-eye text-sm"></i>
+          ) : (
+            <i className="fa-solid fa-eye-slash text-sm"></i>
+          )}
+        </div>
+
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
           <div className="text-red-500 text-sm md:px-7 px-4">{formik.errors.confirmPassword}</div>
         ) : null}

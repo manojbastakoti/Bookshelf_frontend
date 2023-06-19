@@ -65,10 +65,16 @@ const{profile}=useContext(UserContext)
       {posts.map((post,index)=>(
         <Post {...post} key={index}/>
       ))}
-
-      
         
     </div>
+    {posts.length > 10 && (
+        <div className="see-more flex justify-center items-center pt-4 pb-3">
+          <div className="cursor-pointer flex flex-col justify-center items-center ">
+            <h1 className="text-md font-semibold">See More</h1>
+            <i className="fa-solid fa-angles-down"></i>
+          </div>
+        </div>
+      )}
     </>
   )
 }

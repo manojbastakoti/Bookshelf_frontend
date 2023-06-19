@@ -26,8 +26,11 @@ function Post({id,title,introduction,author,image,createdAt}){
           {truncateText(introduction,50)}
           </p>
         </div>
-      <div className="date py-1">
+      <div className="date py-1 flex justify-between pr-2">
         <p className="italic text-slate-500">Posted:<span>{createdAt}</span></p>
+        <p className="text-green-700 font-semibold">
+          <i className="fa-solid fa-eye"></i> <span>10</span>
+        </p>
       </div>
       <div className="author flex justify-between pt-1">
         <p className="text-[#6C9BCF] font-semibold">Author:<span>{author}</span></p>

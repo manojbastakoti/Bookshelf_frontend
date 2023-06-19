@@ -1,9 +1,9 @@
 // import {useFormik } from 'formik';
-import axios from 'axios';
-import { useContext, useState } from 'react';
-import {Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext } from '../context/UserContext';
+import { UserContext } from "../context/UserContext";
 
 const BASE_URL = "http://localhost:8000/user";
 const Login = () => {
@@ -12,7 +12,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const {setProfile}=useContext(UserContext);
+  const [passwordPreview, setPasswordPreview] = useState(false);
+
+  const { setProfile } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -31,11 +33,11 @@ const Login = () => {
         method: "post",
         url: BASE_URL + "/login",
         data: input,
-        withCredentials:true,
+        withCredentials: true,
       });
       // actions.setSubmitting(false);
       // console.log(response);
-      const data =response.data;
+      const data = response.data;
 
       if (!data.success) {
         toast.success(response.data.message, {
@@ -43,26 +45,25 @@ const Login = () => {
         });
       }
 
-
       setProfile({
         user_id: data.data.user_id,
-        name:data.data.name,
-        email:data.data.email,
-
-      })
+        name: data.data.name,
+        email: data.data.email,
+      });
 
       // actions.resetForm();
       navigate("/home");
-      
-    }catch(error) {
+    } catch (error) {
       toast.error(error.response.data.message);
-      console.log(error)
+      console.log(error);
     }
-
   };
 
   return (
-    <form className="pt-10 max-w-md mt-10 mx-auto bg-white  rounded-md dark:bg-[#252525] " onSubmit={loginUser}>
+    <form
+      className="pt-10 max-w-md mt-10 mx-auto bg-white  rounded-md dark:bg-[#252525] "
+      onSubmit={loginUser}
+    >
       <h1 className="text-3xl font-bold mb-4 text-center dark:text-white">
         Login
       </h1>
@@ -79,19 +80,31 @@ const Login = () => {
           }))
         }
       />
-      <input
-        className="block w-[90%] mx-auto px-3 py-3 rounded-md outline-none mb-3 dark:bg-gray-700 dark:text-white"
-        name="password"
-        type="text"
-        placeholder="Password"
-        value={input.password}
-        onChange={(e) =>
-          setInput((prev) => ({
-            email: prev.email,
-            password:e.target.value,
-          }))
-        }
-      />
+      <div className="input-control relative">
+        <input
+          className="block w-[90%] mx-auto px-3 py-3 rounded-md outline-none mb-3 dark:bg-gray-700 dark:text-white"
+          name="password"
+          type={passwordPreview ? "text" :"password"}
+          placeholder="Password"
+          value={input.password}
+          onChange={(e) =>
+            setInput((prev) => ({
+              email: prev.email,
+              password: e.target.value,
+            }))
+          }
+        />
+        <div
+          className="icon absolute top-3 right-10 cursor-pointer"
+          onClick={() => setPasswordPreview(!passwordPreview)}
+        >
+          {passwordPreview ? (
+            <i className="fa-solid fa-eye text-sm"></i>
+          ) : (
+            <i className="fa-solid fa-eye-slash text-sm"></i>
+          )}
+        </div>
+      </div>
       <div className="error-box pl-5">
         <p className="text-red-500 font-semibold text-sm">
           {error ? error : ""}
@@ -115,4 +128,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default Login;
