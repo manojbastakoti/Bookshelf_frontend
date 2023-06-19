@@ -7,7 +7,7 @@ const truncateText = (text, length) => {
   return text.substring(0, length) + "...";
 };
 
-function Post({id,title,introduction,author,image,createdAt}){
+function Post({id,title,introduction,author,image,views,createdAt}){
   return (
          <div className="post grid grid-row-2 mt-5  bg-white dark:bg-[#252525] shadow-md rounded-md">
     <div className="top-box mb-2">
@@ -29,7 +29,7 @@ function Post({id,title,introduction,author,image,createdAt}){
       <div className="date py-1 flex justify-between pr-2">
         <p className="italic text-slate-500">Posted:<span>{createdAt}</span></p>
         <p className="text-green-700 font-semibold">
-          <i className="fa-solid fa-eye"></i> <span>10</span>
+          <i className="fa-solid fa-eye"></i> <span>{views}</span>
         </p>
       </div>
       <div className="author flex justify-between pt-1">

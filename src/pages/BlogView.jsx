@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../context/UserContext';
+import Comments from "../components/Comments";
 
 
 const BASE_URL = "http://localhost:8000/";
@@ -28,7 +29,17 @@ const BlogView = () => {
       console.log(data);
       setBlog(data.data);
     };
+    const addViews = async () => {
+      const response = await axios({
+        method: "post",
+        url: BASE_URL + "article-add-views/" + param.id,
+        withCredentials: true,
+      });
+      const data = response.data;
+      console.log(data);
+    };
     getSingleBlog();
+    addViews();
   }, []);
 
   const deleteArticle = async () => {
@@ -39,7 +50,7 @@ const BlogView = () => {
     });
     const data = response.data;
     if (data.success) {
-      navigate("/");
+      navigate("/blogs");
     }
   };
   
@@ -63,7 +74,7 @@ const BlogView = () => {
           Posted by: {blog.author}{" "}
         </p>
         <p className="text-green-700 font-semibold">
-          <i className="fa-solid fa-eye"></i> <span>10</span>
+          <i className="fa-solid fa-eye"></i> <span>{blog.views}</span>
         </p>
 
         {profile?.user_id === blog?.author_id && (
@@ -101,8 +112,34 @@ const BlogView = () => {
         </p>
       </div>
       <hr className="border-[#767676] my-4" />
-      <div className="description dark:text-white px-5">
+      <div className="description dark:text-white">
         <div dangerouslySetInnerHTML={{ __html: blog.description }}></div>
+      </div>
+      <hr className="border-[#767676] my-5" />
+      <div className="comment">
+        <div className="mb-4">
+          <h1 className="text-3xl font-bold dark:text-white">Comments</h1>
+        </div>
+
+        <div className="input-box mb-4">
+          <textarea
+            className="w-[100%] bg-white rounded-md shadow-md min-h-[80px] outline-none border-none py-2 px-2 text-sm dark:bg-[#252525] dark:text-white"
+            placeholder="Write your comment.."
+          ></textarea>
+          <div className="flex justify-end items-center">
+            <button className="px-4 py-2 bg-[#2980b9] text-white rounded-md">
+              <span className="pr-1">Send</span>
+              <i
+                className="fa-solid fa-paper-plane text-sm"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+        <Comments />
+        <Comments />
+
+        <Comments />
       </div>
     </div>
   );
