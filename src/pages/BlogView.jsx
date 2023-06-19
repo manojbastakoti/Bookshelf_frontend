@@ -62,6 +62,9 @@ const BlogView = () => {
         <p className="font-bold dark:text-white">
           Posted by: {blog.author}{" "}
         </p>
+        <p className="text-green-700 font-semibold">
+          <i className="fa-solid fa-eye"></i> <span>10</span>
+        </p>
 
         {profile?.user_id === blog?.author_id && (
 

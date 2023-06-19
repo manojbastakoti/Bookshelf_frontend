@@ -11,7 +11,7 @@ import { UserContext } from '../context/UserContext';
 const BASE_URL ="http://localhost:8000/blogs";
 
 const Blog = () => {
-const [posts,setPosts]= useState([]);
+const [posts,setPosts]= useState(null);
 const{profile}=useContext(UserContext)
   useEffect(() => {
     const getBlogs =async()=>{
@@ -30,14 +30,37 @@ const{profile}=useContext(UserContext)
     getBlogs();
   }, [])
   
+  if (!posts) {
+    return (
+      <div className="loading grid justify-center items-center min-h-[300px]">
+        <img src="./assets/loading.gif" className="h-[100px] " alt="spinner" />
+      </div>
+    );
+  }
+
+  if (posts.length <= 0)
+    return (
+      <>
+      <div className="create-button max-w-screen-2xl mx-auto mt-5 mb-2 flex justify-end">
+      {profile &&(
+        <Link to="/create-blog" className="bg-blue-500  hover:bg-blue-600 p-3 rounded-md text-lg dark:text-white">Create Blog</Link>
+        )}
+  
+    </div>
+      <div className="no-data text-2xl font-bold grid justify-center items-center min-h-[300px]">
+        <h1 className="dark:text-white">No Blogs found !</h1>
+      </div>
+        </>
+    );
+
   return (
     <>
-  <div className="create-button max-w-screen-2xl mx-auto mt-5 mb-2 flex justify-end">
-    {profile &&(
-      <Link to="/create-blog" className="bg-blue-500  hover:bg-blue-600 p-3 rounded-md text-lg dark:text-white">Create Blog</Link>
-    )}
-
-  </div>
+    <div className="create-button max-w-screen-2xl mx-auto mt-5 mb-2 flex justify-end">
+      {profile &&(
+        <Link to="/create-blog" className="bg-blue-500  hover:bg-blue-600 p-3 rounded-md text-lg dark:text-white">Create Blog</Link>
+        )}
+  
+    </div>
     <div className="blog-wrapper max-w-screen-2xl mx-auto grid md:grid-cols-2 gap-10 mb-16">
       {posts.map((post,index)=>(
         <Post {...post} key={index}/>

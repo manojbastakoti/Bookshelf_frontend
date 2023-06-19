@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../context/UserContext";
 
-
 const BASE_URL = "http://localhost:8000/profile_info";
 
 const Navbar = () => {
-  const {profile, setProfile} = useContext(UserContext);
+  const { profile, setProfile } = useContext(UserContext);
   const [token, setToken] = useState(Cookies.get("auth") ?? null);
   const [theme, setTheme] = useState(
     localStorage.getItem("mernTheme") ?? "light"
@@ -31,6 +30,8 @@ const Navbar = () => {
       // console.log(data);
       if (data.success) {
         setProfile(data.data);
+      } else {
+        setProfile(null);
       }
     };
     getUser();
@@ -134,34 +135,44 @@ const Navbar = () => {
             )}
           </div>
 
+          {profile === "loading" && ""}
+
           {!profile && (
             <Link to="/login" className="hover:font-bold transition-all">
               Login
             </Link>
           )}
 
-          {profile &&(
+          {profile && profile !== "loading" && (
             <>
-            <div className=" pt-2">
-
-<div className="dropdown inline-block relative">
-  <button className="">
-            <div className="relative w-8 h-8 overflow-hidden  rounded-full dark:bg-gray-600 " >
-              <i className="fa-solid fa-user fa-lg absolute w-10 h-10 top-3.5 -left-[4.5px]"></i>
-            </div>
-    {/* <span className="mr-1">Dropdown</span> */}
-    {/* <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg> */}
-  </button>
-  <div className="dropdown-menu absolute z-50 hidden flex-col text-gray-700  bg-white w-40">
-    <Link className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap" href="#">View Profile</Link>
-    <Link className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap" href="#" onClick={() => logOut()}>Log Out</Link>
-  </div>
-</div>
-
-</div>
+              <div className=" pt-2">
+                <div className="dropdown inline-block relative">
+                  <button className="">
+                    <div className="relative w-8 h-8 overflow-hidden  rounded-full dark:bg-gray-600 ">
+                      <i className="fa-solid fa-user fa-lg absolute w-10 h-10 top-3.5 -left-[4.5px]"></i>
+                    </div>
+                    {/* <span className="mr-1">Dropdown</span> */}
+                    {/* <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg> */}
+                  </button>
+                  <div className="dropdown-menu absolute z-50 hidden flex-col text-gray-700  bg-white w-40">
+                    <Link
+                      className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap"
+                      href="#"
+                    >
+                      View Profile
+                    </Link>
+                    <Link
+                      className="hover:bg-slate-300 py-2 px-4 block whitespace-no-wrap"
+                      href="#"
+                      onClick={() => logOut()}
+                    >
+                      Log Out
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </>
           )}
-
         </div>
         <div className="mobile-view lg:hidden flex justify-end gap-5 items-center">
           <div className="icons dark:text-white mobile-view-dark-mode">
@@ -187,7 +198,6 @@ const Navbar = () => {
               <i className="fa-solid fa-bars text-2xl border-2 px-2 rounded-md dark:text-white"></i>
             )}
           </div>
-
         </div>
       </div>
 
@@ -221,17 +231,16 @@ const Navbar = () => {
             Contact
           </Link>
 
-          {!profile &&(
-
-          <Link
-            to="/login"
-            className="hover:font-bold transition-all"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
-            Login
-          </Link>
+          {!profile && (
+            <Link
+              to="/login"
+              className="hover:font-bold transition-all"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Login
+            </Link>
           )}
         </div>
       )}
@@ -240,13 +249,12 @@ const Navbar = () => {
           <i className="fa-solid fa-cart-shopping dark:text-white"></i>
         </Link>
         <Link to="/">
-        <i className="fa-solid fa-magnifying-glass dark:text-white"></i>
+          <i className="fa-solid fa-magnifying-glass dark:text-white"></i>
         </Link>
-        {profile &&(
-        <Link to="/">
-        <i className="fa-solid fa-user dark:text-white"></i>
-        </Link>
-
+        {profile && (
+          <Link to="/">
+            <i className="fa-solid fa-user dark:text-white"></i>
+          </Link>
         )}
       </div>
     </>

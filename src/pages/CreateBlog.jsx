@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import ReactQuill from "react-quill"
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { UserContext } from "../context/UserContext";
 
@@ -38,9 +38,9 @@ const formats = [
 ];
 
 const CreateBlog = () => {
-  const{profile} =useContext(UserContext);
+  const { profile } = useContext(UserContext);
   console.log(profile);
-
+  const [preview, setPreview] = useState(null);
   const [input, setInput] = useState({
     title: "",
     description: "",
@@ -52,7 +52,7 @@ const CreateBlog = () => {
 
   const postBlog = async (e) => {
     e.preventDefault();
-    
+
     for (const key in input) {
       if (input[key] === "") {
         setError("All fields are required !");
@@ -60,38 +60,44 @@ const CreateBlog = () => {
       }
     }
     const formData = new FormData();
-    formData.append("title",input.title);
+    formData.append("title", input.title);
     formData.append("introduction", input.introduction);
-    formData.append("description",input.description);
+    formData.append("description", input.description);
     formData.append("author_id", profile ? profile.user_id : "");
     formData.append("author", profile ? profile.name : "");
-    formData.append("image",input.image);
+    formData.append("image", input.image);
 
-  try {
-  const response = await axios({
-    method: "post",
-    url: BASE_URL,
-    data: formData,
-    withCredentials:true,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: Cookies.get("auth") ?? null,
-    },
-  });
+    try {
+      const response = await axios({
+        method: "post",
+        url: BASE_URL,
+        data: formData,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: Cookies.get("auth") ?? null,
+        },
+      });
 
-  const data = response.data;
-  console.log(data)
+      const data = response.data;
+      console.log(data);
 
-  if (!data.success) {
-    setError(data.message);
-    return false;
-  }
+      if (!data.success) {
+        setError(data.message);
+        return false;
+      }
 
-  navigate("/");
-} catch (error) {
-  console.log(error);
-}
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  if (profile === "loading") return "";
+
+  if (!profile) {
+    navigate("/login");
+  }
 
   return (
     <form className="pt-[50px] max-w-xl mx-auto" onSubmit={postBlog}>
@@ -107,7 +113,7 @@ const CreateBlog = () => {
         onChange={(e) =>
           setInput((prev) => ({
             title: e.target.value,
-            introduction:prev.introduction,
+            introduction: prev.introduction,
             description: prev.description,
             author: prev.author,
             image: prev.image,
@@ -130,7 +136,7 @@ const CreateBlog = () => {
           }))
         }
       /> */}
-         <input
+      <input
         className="block w-[100%] outline-none py-[10px] px-[10px] rounded-md mb-3"
         type="text"
         name="introduction"
@@ -139,9 +145,9 @@ const CreateBlog = () => {
         onChange={(e) =>
           setInput((prev) => ({
             title: prev.title,
-            introduction:e.target.value,
+            introduction: e.target.value,
             description: prev.description,
-            author:prev.author,
+            author: prev.author,
             image: prev.image,
           }))
         }
@@ -154,15 +160,23 @@ const CreateBlog = () => {
           console.log();
           setInput((prev) => ({
             title: prev.title,
-            introduction:prev.introduction,
+            introduction: prev.introduction,
             description: prev.description,
             author: prev.author,
             image: e.target.files[0],
           }));
+          const objectUrl = URL.createObjectURL(e.target.files[0]);
+          setPreview(objectUrl);
         }}
       />
 
-<ReactQuill
+      {preview && (
+        <div className="image-preview grid items-center justify-center mb-3">
+          <img className="max-h-[100px]" src={preview} alt="preview" />
+        </div>
+      )}
+      
+      <ReactQuill
         theme="snow"
         modules={modules}
         formats={formats}
@@ -170,7 +184,7 @@ const CreateBlog = () => {
         onChange={(value) =>
           setInput((prev) => ({
             title: prev.title,
-            introduction:prev.introduction,
+            introduction: prev.introduction,
             description: value,
             author: prev.author,
             image: prev.image,
