@@ -12,6 +12,9 @@ import { UserContextProvider } from "./context/UserContext";
 import CreateBlog from "./pages/CreateBlog";
 import BlogView from "./pages/BlogView";
 import EditBlog from "./pages/EditBlog";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+
 
 // import Footer from "./components/Footer";
 
@@ -19,6 +22,8 @@ function App() {
   return (
     <div className="mainwrapper bg-[#F0EEED] h-screen w-screen dark:bg-[#121212]">
       <main className="max-w-screen-3xl py-4">
+        {console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID)}
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
         <UserContextProvider>
 
         <Routes>
@@ -38,6 +43,7 @@ function App() {
           </Route>
         </Routes>
         </UserContextProvider>
+        </GoogleOAuthProvider>
       </main>
     
     </div>

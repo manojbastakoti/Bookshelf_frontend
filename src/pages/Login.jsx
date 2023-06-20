@@ -1,9 +1,11 @@
 // import {useFormik } from 'formik';
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const BASE_URL = "http://localhost:8000/user";
 const Login = () => {
@@ -12,11 +14,34 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [googleUser, setGoogleUser] = useState(null);
   const [passwordPreview, setPasswordPreview] = useState(false);
 
   const { setProfile } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (googleUser) {
+      const googleApiLogin = async () => {
+        const response = await axios({
+          method: "post",
+          url: BASE_URL + "/google-login",
+          data: googleUser,
+          withCredentials: true,
+        });
+        const data = response.data;
+        setProfile({
+          user_id: data.data.user_id,
+          name: data.data.name,
+          email: data.data.email,
+        });
+
+        navigate("/");
+      };
+      googleApiLogin();
+    }
+  }, [googleUser]);
   const [error, setError] = useState(null);
 
   const loginUser = async (e) => {
@@ -113,10 +138,28 @@ const Login = () => {
       <div className="grid place-items-center">
         <button
           type="submit"
-          className="block w-[90%] mt-1 mx-auto px-3 py-3 rounded-md bg-blue-400 hover:bg-blue-500 hover:font-semibold dark:text-white"
+          className="block w-[90%] mb-2 mt-1 mx-auto px-3 py-3 rounded-md bg-blue-400 hover:bg-blue-500 hover:font-semibold dark:text-white"
         >
           Login
         </button>
+        <GoogleLogin
+  onSuccess={(credentialResponse) => {
+    console.log(credentialResponse);
+    if (credentialResponse) {
+      var decoded = jwt_decode(credentialResponse.credential);
+      console.log(decoded)
+      setGoogleUser({
+        name: decoded.name,
+        email: decoded.email,
+        googleId: decoded.sub,
+      });
+    }
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+  useOneTap
+/>
         <p className=" dark:text-white mt-3 mb-3">
           New Here?{" "}
           <Link to="/register">

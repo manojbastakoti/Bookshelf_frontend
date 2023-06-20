@@ -76,18 +76,20 @@ const{profile}=useContext(UserContext)
       ))}
         
     </div>
-    {totalPosts > posts.length &&(
-        <div className="see-more flex justify-center items-center pt-4 pb-3">
+    {posts?.length >= totalPosts?(""):(
+
+      <div className="see-more flex justify-center items-center pt-2 pb-3 mb-14">
           <div className="cursor-pointer flex flex-col justify-center items-center ">
           <h1
               className="text-md font-semibold"
               onClick={() => setCurrentPage(currentPage + 1)}
-            >
+              >
               See More
             </h1>
             <i className="fa-solid fa-angles-down"></i>
           </div>
         </div>
+              
       )}
     </>
   )
