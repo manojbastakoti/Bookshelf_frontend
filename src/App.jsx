@@ -18,7 +18,7 @@ import EditBlog from "./pages/EditBlog";
 function App() {
   return (
     <div className="mainwrapper bg-[#F0EEED] h-screen w-screen dark:bg-[#121212]">
-      <main className="max-w-screen-3xl mx-auto py-4">
+      <main className="max-w-screen-3xl py-4">
         <UserContextProvider>
 
         <Routes>

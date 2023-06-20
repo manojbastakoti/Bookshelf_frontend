@@ -12,23 +12,32 @@ const BASE_URL ="http://localhost:8000/blogs";
 
 const Blog = () => {
 const [posts,setPosts]= useState(null);
+const [totalPosts, setTotalPosts] = useState(0);
+const [currentPage, setCurrentPage] = useState(1);
 const{profile}=useContext(UserContext)
   useEffect(() => {
     const getBlogs =async()=>{
       const response =await axios({
         method:"get",
-        url:BASE_URL,
+        url:BASE_URL + "/" + currentPage,
         withCredentials:true,
       });
       console.log(response)
       const data = response.data;
       console.log(data);
-      setPosts(data.data);
-      // console.log(posts)
+
+       console.log(data);
+      setTotalPosts(data.total);
+
+      if (!posts) {
+        setPosts(data.data);
+      } else {
+        setPosts([...posts, ...data.data]);
+      }
       
     }
     getBlogs();
-  }, [])
+  }, [currentPage])
   
   if (!posts) {
     return (
@@ -67,10 +76,15 @@ const{profile}=useContext(UserContext)
       ))}
         
     </div>
-    {posts.length > 10 && (
+    {totalPosts > posts.length &&(
         <div className="see-more flex justify-center items-center pt-4 pb-3">
           <div className="cursor-pointer flex flex-col justify-center items-center ">
-            <h1 className="text-md font-semibold">See More</h1>
+          <h1
+              className="text-md font-semibold"
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              See More
+            </h1>
             <i className="fa-solid fa-angles-down"></i>
           </div>
         </div>

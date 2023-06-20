@@ -12,6 +12,8 @@ const BASE_URL = "http://localhost:8000/";
 const BlogView = () => {
   const { profile } = useContext(UserContext);
   const [blog, setBlog] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [inputComment, setInputComment] = useState("");
   console.log(profile);
   console.log(blog)
   const param = useParams();
@@ -38,9 +40,23 @@ const BlogView = () => {
       const data = response.data;
       console.log(data);
     };
+    const getComments = async () => {
+      const response = await axios({
+        method: "get",
+        url: BASE_URL + "comment/" + param.id,
+        withCredentials: true,
+      });
+      const data = response.data;
+      console.log(data);
+      setComments(data.data);
+    };
     getSingleBlog();
     addViews();
+    getComments();
   }, []);
+
+  if (!blog) return "";
+
 
   const deleteArticle = async () => {
     const response = await axios({
@@ -55,7 +71,31 @@ const BlogView = () => {
   };
   
 
-  if (!blog) return "";
+  const postComment = async (e) => {
+    e.preventDefault();
+    const response = await axios({
+      method: "post",
+      url: BASE_URL + "comment/add",
+      data: {
+        blog_id: param.id,
+        comment: inputComment,
+      },
+      withCredentials: true,
+    });
+    const data = response.data;
+    // console.log(data);
+
+    const tempObj = {
+      _id: data.data.user[0],
+      name: profile.name,
+    };
+
+    data.data.user[0] = tempObj;
+
+    setInputComment("");
+    setComments([data.data, ...comments]);
+  };
+
 
   return (
     <div className= "max-w-screen-2xl mx-auto">
@@ -121,25 +161,30 @@ const BlogView = () => {
           <h1 className="text-3xl font-bold dark:text-white">Comments</h1>
         </div>
 
-        <div className="input-box mb-4">
+        <form className="input-box mb-4" onSubmit={postComment}>
           <textarea
             className="w-[100%] bg-white rounded-md shadow-md min-h-[80px] outline-none border-none py-2 px-2 text-sm dark:bg-[#252525] dark:text-white"
             placeholder="Write your comment.."
+            onChange={(e) => setInputComment(e.target.value)}
+            value={inputComment}
           ></textarea>
           <div className="flex justify-end items-center">
-            <button className="px-4 py-2 bg-[#2980b9] text-white rounded-md">
+            <button className={`px-4 py-2 bg-[#2980b9] text-white rounded-md active:scale-[0.95] ${
+                !profile ? "opacity-70 pointer-events-none" : ""
+              }`} type="submit">
               <span className="pr-1">Send</span>
               <i
-                className="fa-solid fa-paper-plane text-sm"
+                className="fa-solid fa-paper-plane text-sm ml-1"
               ></i>
             </button>
           </div>
-        </div>
+        </form>
 
-        <Comments />
-        <Comments />
-
-        <Comments />
+        {!comments
+          ? "Loading"
+          : comments.length <= 0
+          ? "Comment not found"
+          : comments.map((comment,index) => <Comments {...comment} key={index}/>)}
       </div>
     </div>
   );
