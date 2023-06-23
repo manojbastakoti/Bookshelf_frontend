@@ -13,6 +13,7 @@ import CreateBlog from "./pages/CreateBlog";
 import BlogView from "./pages/BlogView";
 import EditBlog from "./pages/EditBlog";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import BooksDetails from "./pages/BooksDetails";
 
 
 
@@ -35,6 +36,8 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/popularbooks" element={<PopularBooksLanding/>} />
+            <Route path="/bookdetails/:id" element={<BooksDetails/>} />
+
             <Route path="/cart" element={<Cart/>} />
             <Route path="/create-blog" element={<CreateBlog/>}/>
             <Route path="/blog/:id" element={<BlogView/>} />

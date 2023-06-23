@@ -18,3 +18,13 @@ body{
   .dropdown:hover .dropdown-menu {
     display: block;
   }
+  
+  .blog-wrapper {
+    overflow-x: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+  }
+  
+  .blog-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }

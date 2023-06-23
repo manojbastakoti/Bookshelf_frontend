@@ -1,22 +1,30 @@
-const PopularBooks = () => {
+// const BASE_URL = "http://localhost:8000/popularBooks";
+
+import { Link } from "react-router-dom";
+
+
+const PopularBooks = ({_id,Title,Image,Author,}) => {
   return (
     <div className="post grid grid-row-2 mt-5 max-w-sm shadow-lg rounded-md">
       <div className="top-box mb-2">
+        <Link to={`/bookdetails/${_id}`}>
         <img
-          src="./assets/Book1.jpg"
+          src={Image}
           className="min-w-fit mx-auto sm:min-w-full h-44 md:h-80 sm:rounded-t-md mb-2"
           alt="article"
-        />
+          />
+          </Link>
       </div>
       <div className="bottom-box sm:p-2 -mt-2">
-        <div className="title min-w-fit pl-4 pr-3.5 sm:p-1">
+        <div className="title min-w-fit pl-4 pr-3.5 md:h-[85px] h-[180px] sm:p-1">
           <h1 className="sm:text-lg sm:font-bold dark:text-white">
-            Where The CRAWDADS SING
+            {/* {truncateText(Title,40)} */}
+            {Title}
           </h1>
         </div>
         <div className="author sm:p-1 pl-4 pr-4">
           <p className="dark:text-white pb-2">
-            by<span className="text-slate-500 pl-1">Delia Owens</span>
+            by<span className="text-slate-500 pl-1">{Author}</span>
           </p>
           <p>
             <span className="sm:font-semibold text-slate-500">Rs.550</span>
