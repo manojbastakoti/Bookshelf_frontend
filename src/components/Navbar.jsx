@@ -67,7 +67,9 @@ const Navbar = () => {
           <div className="hidden lg:flex justify-center items-center gap-5">
             <Link to="/">All Books</Link>
             <Link to="/blogs">Blogs</Link>
-            <Link to="/">Contact</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/wishlist">Wishlist</Link>
+
           </div>
         </div>
         <div className="links hidden lg:flex justify-end gap-5 items-center  dark:text-white">
@@ -120,8 +122,9 @@ const Navbar = () => {
               <span className="sr-only">Search</span>
             </button>
           </form>
-          <Link to="/cart" className="hover:font-bold transition-all">
+          <Link to="/cart" className="hover:font-bold transition-all relative">
             <i className="fa-solid fa-cart-shopping dark:text-white"></i>
+            <span className=" text-red-500 absolute -top-4 right-1">0</span>
           </Link>
           <div className="icons dark:text-white">
             {theme === "light" ? (

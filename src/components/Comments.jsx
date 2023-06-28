@@ -7,7 +7,7 @@ const Comments = ({ comment, user, createdAt }) => {
       <div className="flex justify-start items-center pb-2">
         <h1 className="text-md font-semibold dark:text-white"></h1>
         <h1 className="text-md font-semibold dark:text-white">
-          {user[0].name}
+          {user[0]?.name}
         </h1>
         <p className="text-md font-semibold mx-2 dark:text-white"> - </p>
         <p className="text-xs font-semibold text-[#888888] italic dark:text-white">

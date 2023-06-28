@@ -48,7 +48,9 @@ const BlogView = () => {
       });
       const data = response.data;
       console.log(data);
-      setComments(data.data);
+
+      setComments(data.comments);
+      console.log(data.comments)
     };
     getSingleBlog();
     addViews();
@@ -91,10 +93,12 @@ const BlogView = () => {
     };
 
     data.data.user[0] = tempObj;
+  
 
     setInputComment("");
     setComments([data.data, ...comments]);
   };
+
 
 
   return (

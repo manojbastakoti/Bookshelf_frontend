@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactStars from "react-rating-stars-component";
+import BreadCrumb from "../components/BreadCrumb";
+import Meta from "../components/Meta";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -26,11 +29,13 @@ const BooksDetails = () => {
   if (!book) return "";
   return (
     <>
+     <Meta title={"Book Details"} />
+     <BreadCrumb title="Book Details" />
       <div className="max-w-screen-2xl grid grid-cols-1 md:grid-cols-12 mx-auto mt-10 dark:text-white mb-16">
         <div className="images text-center col-span-3 ">
           <img src={book.Image} className="max-w-sm mx-auto" alt="books" />
           <button className="bg-slate-400 hover:bg-slate-500 rounded-md p-3 w-[80%] mt-5">
-            <i className="fa-solid fa-heart text-red-600"></i>
+            <i className="fa-solid fa-heart fa-lg text-red-600"></i>
             <span className="ml-1">Add To WishList</span>
           </button>
         </div>
@@ -108,6 +113,23 @@ const BooksDetails = () => {
             <p>{book.ratings}</p>
           </div>
         </div>
+      </div>
+      <div className="review-wrapper max-w-screen-2xl mx-auto ">
+
+      <h1 className=" text-3xl dark:text-white py-5">Rating and Reviews</h1>
+      <div className="reviews max-w-lg h-32 ">
+      <ReactStars
+    count={10}
+    size={50}
+    isHalf={true}
+    value="8"
+    edit={false}
+    emptyIcon={<i className="far fa-star"></i>}
+    halfIcon={<i className="fa fa-star-half-alt"></i>}
+    fullIcon={<i className="fa fa-star"></i>}
+    activeColor="#ffd700"
+  />,
+      </div>
       </div>
     </>
   );
