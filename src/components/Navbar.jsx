@@ -65,10 +65,11 @@ const Navbar = () => {
             Bookshelf
           </Link>
           <div className="hidden lg:flex justify-center items-center gap-5">
-            <Link to="/">All Books</Link>
+            <Link to="/allbooks">All Books</Link>
             <Link to="/blogs">Blogs</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/wishlist">Wishlist</Link>
+            
 
           </div>
         </div>

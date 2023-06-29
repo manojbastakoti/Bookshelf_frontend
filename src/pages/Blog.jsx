@@ -15,6 +15,7 @@ const [posts,setPosts]= useState(null);
 const [totalPosts, setTotalPosts] = useState(0);
 const [currentPage, setCurrentPage] = useState(1);
 const{profile}=useContext(UserContext)
+console.log("blog",profile)
   useEffect(() => {
     const getBlogs =async()=>{
       const response =await axios({

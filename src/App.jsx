@@ -17,6 +17,8 @@ import BooksDetails from "./pages/BooksDetails";
 import Contact from "./pages/Contact";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
+import AllBooks from "./pages/AllBooks";
+import AddBooks from "./pages/AddBooks";
 
 
 
@@ -39,6 +41,10 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/popularbooks" element={<PopularBooksLanding/>} />
+            <Route path="/allbooks" element={<AllBooks/>} />
+            <Route path="/addbooks" element={<AddBooks/>} />
+
+
             <Route path="/bookdetails/:id" element={<BooksDetails/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/wishlist" element={<Wishlist/>} />

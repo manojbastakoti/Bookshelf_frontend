@@ -24,17 +24,20 @@ const Login = () => {
   useEffect(() => {
     if (googleUser) {
       const googleApiLogin = async () => {
+      
         const response = await axios({
           method: "post",
           url: BASE_URL + "/google-login",
           data: googleUser,
           withCredentials: true,
         });
-        const data = response.data;
+        const data = response.data.data;
+        console.log("google" ,data)
         setProfile({
-          user_id: data.data.user_id,
-          name: data.data.name,
-          email: data.data.email,
+          user_id: data.user_id,
+          // name: data.name,
+          email: data.email,
+          role:data.role
         });
 
         navigate("/");
@@ -63,6 +66,7 @@ const Login = () => {
       // actions.setSubmitting(false);
       // console.log(response);
       const data = response.data;
+      console.log("normal", data)
 
       if (!data.success) {
         toast.success(response.data.message, {
@@ -72,8 +76,9 @@ const Login = () => {
 
       setProfile({
         user_id: data.data.user_id,
-        name: data.data.name,
+        // name: data.data.name,
         email: data.data.email,
+        role:data.data.role
       });
 
       // actions.resetForm();
