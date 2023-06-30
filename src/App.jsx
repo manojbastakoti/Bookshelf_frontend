@@ -19,6 +19,7 @@ import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import AllBooks from "./pages/AllBooks";
 import AddBooks from "./pages/AddBooks";
+import AllBooksDetails from "./pages/allbooksdetails";
 
 
 
@@ -33,6 +34,7 @@ function App() {
         <UserContextProvider>
 
         <Routes>
+          
           <Route path="/" element={<Common />}>
             <Route index element={<Home/>} />
             <Route path="/home" element={<Home/>} />
@@ -44,6 +46,7 @@ function App() {
             <Route path="/allbooks" element={<AllBooks/>} />
             <Route path="/addbooks" element={<AddBooks/>} />
 
+            <Route path="/allbookdetails/:id" element={<AllBooksDetails/>} />
 
             <Route path="/bookdetails/:id" element={<BooksDetails/>} />
             <Route path="/contact" element={<Contact/>} />
