@@ -44,6 +44,7 @@ const AddBooks = () => {
   const [input, setInput] = useState({
     title: "",
     price:"",
+    quantity:"",
     cover:"",
     description: "",
     author:"",
@@ -69,6 +70,7 @@ const AddBooks = () => {
     const formData = new FormData();
     formData.append("title", input.title);
     formData.append("price", input.price);
+    formData.append("quantity", input.quantity);
     formData.append("description", input.description);
     formData.append("author", input.author);
     formData.append("publishedDate", input.publishedDate);
@@ -167,6 +169,26 @@ const AddBooks = () => {
           setInput((prev) => ({
             title: prev.title,
             price:e.target.value,
+            publishedDate:prev.publishedDate,
+            description: prev.description,
+            author:prev.author ,
+            genre:prev.genre,
+            ISBN:prev.ISBN,
+            cover: prev.cover,
+          }))
+        }
+      />
+        <input
+        className="block w-[100%] outline-none py-[10px] px-[10px] rounded-md mb-3"
+        type="text"
+        name="quantity"
+        placeholder="Quantity"
+        value={input.quantity}
+        onChange={(e) =>
+          setInput((prev) => ({
+            title: prev.title,
+            price:prev.price,
+            quantity:e.target.value,
             publishedDate:prev.publishedDate,
             description: prev.description,
             author:prev.author ,

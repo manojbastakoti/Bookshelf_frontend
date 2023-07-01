@@ -4,10 +4,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../context/UserContext";
+import { CartCountContext } from "../context/CartCountContext";
 
 const BASE_URL = "http://localhost:8000/profile_info";
 
 const Navbar = () => {
+  const { cartCount } = useContext(CartCountContext);
   const { profile, setProfile } = useContext(UserContext);
   const [token, setToken] = useState(Cookies.get("auth") ?? null);
   const [theme, setTheme] = useState(
@@ -124,9 +126,9 @@ const Navbar = () => {
             </button>
           </form>
           <Link to="/cart" className="hover:font-bold transition-all relative">
-            <i className="fa-solid fa-cart-shopping dark:text-white"></i>
-            <span className=" text-red-500 absolute -top-4 right-1">0</span>
-          </Link>
+        <i className="fa-solid fa-cart-shopping dark:text-white"></i>
+        <span className="text-red-500 absolute -top-4 right-1">{cartCount}</span>
+      </Link>
           <div className="icons dark:text-white">
             {theme === "light" ? (
               <div className="icon cursor-pointer" onClick={themeHandler}>

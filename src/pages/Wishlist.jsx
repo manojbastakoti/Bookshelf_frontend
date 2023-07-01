@@ -1,14 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
+import { UserContext } from "../context/UserContext";
 
 
 
 const BASE_URL = "http://localhost:8000/";
 
 const Wishlist = () => {
+  const { profile } = useContext(UserContext);
   const [userWishList, setuserWishList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const getWishlist = async () => {
       const response = await axios({
@@ -25,6 +29,13 @@ const Wishlist = () => {
 
     getWishlist();
   }, []);
+
+
+  if (profile === "loading") return "";
+
+  if (!profile) {
+    navigate("/login");
+  }
 
   return (
     <>
@@ -56,6 +67,7 @@ const Wishlist = () => {
           })}
         </div>
       </div>
+      
     </>
   );
 };
