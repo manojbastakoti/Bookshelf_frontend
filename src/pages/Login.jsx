@@ -33,6 +33,12 @@ const Login = () => {
         });
         const data = response.data.data;
         console.log("google" ,data)
+
+        // if (data.success) {
+        //   toast.success(data.message, {
+        //     theme: "colored",
+        //   });
+        // }
         setProfile({
           user_id: data.user_id,
           // name: data.name,
@@ -68,7 +74,7 @@ const Login = () => {
       const data = response.data;
       console.log("normal", data)
 
-      if (!data.success) {
+      if (data.success) {
         toast.success(response.data.message, {
           theme: "colored",
         });

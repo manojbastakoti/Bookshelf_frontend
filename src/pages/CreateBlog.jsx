@@ -39,7 +39,7 @@ const formats = [
 
 const CreateBlog = () => {
   const { profile } = useContext(UserContext);
-  console.log(profile);
+  // console.log(profile);
   const [preview, setPreview] = useState(null);
   const [input, setInput] = useState({
     title: "",

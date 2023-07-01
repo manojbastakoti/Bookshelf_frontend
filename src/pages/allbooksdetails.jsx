@@ -6,11 +6,17 @@ import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import moment from "moment";
 
+
 const BASE_URL = "http://localhost:8000/";
 
 const AllBooksDetails = () => {
   const [book, setBook] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const param = useParams();
+  const bookId = param.id
+  console.log(bookId)
+
+  console.log(bookId)
 //   const navigate = useNavigate();
   useEffect(() => {
     const getallBook = async () => {
@@ -25,8 +31,28 @@ const AllBooksDetails = () => {
       setBook(data);
     //   console.log(book);
     };
+
+ 
     getallBook();
   }, []);
+
+  const addToWishlist = async () => {
+    const response =await axios({
+      method:"put",
+      url:BASE_URL + "wishlist",
+      data:{
+        bookId
+      },
+    
+      withCredentials:true,
+    });
+    console.log(response)
+    const data = response.data
+    console.log(data);
+    setWishlist(data)
+  }
+
+  // addToWishlist();
 
   if (!book) return "";
   return (
@@ -37,7 +63,7 @@ const AllBooksDetails = () => {
       <div className="max-w-screen-2xl grid grid-cols-1 lg:grid-cols-12 mx-auto mt-10 dark:text-white mb-16">
         <div className="images text-center col-span-3 ">
           <img src={BASE_URL + book.cover} className="max-w-sm mx-auto" alt="books" />
-          <button className="bg-slate-400 hover:bg-slate-500 rounded-md p-3 w-[80%] mt-5">
+          <button type="click" className="bg-slate-400 hover:bg-slate-500 rounded-md p-3 w-[80%] mt-5" onClick={addToWishlist}>
             <i className="fa-solid fa-heart fa-lg text-red-600"></i>
             <span className="ml-1">Add To WishList</span>
           </button>
@@ -107,7 +133,7 @@ const AllBooksDetails = () => {
     count={10}
     size={50}
     isHalf={true}
-    value="8"
+    value={book.totalrating}
     edit={false}
     emptyIcon={<i className="far fa-star"></i>}
     halfIcon={<i className="fa fa-star-half-alt"></i>}
