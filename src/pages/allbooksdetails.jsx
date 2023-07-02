@@ -78,6 +78,10 @@ console.log(cart)
     const data = response.data;
     console.log(data);
     setRate(data);
+    setBook((prevBook) => ({
+      ...prevBook,
+      totalrating: data.totalrating,
+    }));
   };
 
   //update quantity
@@ -101,6 +105,7 @@ console.log(cart)
   };
 
 
+//addtocart
 
   const addToCart = async () => {
     if (quantity > bookQuantity) {
@@ -123,11 +128,19 @@ console.log(cart)
     console.log(data);
     setCart(data);
     setIsOutOfStock(false);
+
+
     setIsAddedToCart(true);
     // console.log(cart)
-    updateCartCount(previousCount => previousCount + 1);
+    if (!cart.some((item) => item.bookId === bookId)) {
+    updateCartCount((previousCount) => previousCount + 1);
+  }
   };
   
+  //remove product from Cart
+
+
+
 
   // addToWishlist();
 
@@ -198,7 +211,13 @@ console.log(cart)
               onClick={increaseQuantity}
             ></i>
           </div>
-          <button className="bg-slate-400 hover:bg-slate-500 rounded-md p-2 w-[80%] mt-3" onClick={addToCart}>
+          <button className="bg-slate-400 hover:bg-slate-500 rounded-md p-2 w-[80%] mt-3"  onClick={() => {
+    if (isAddedToCart  === true) {
+      navigate("/cart");
+    } else {
+      addToCart();
+    }
+  }}>
           {isAddedToCart ? (
                 <Link to="/cart">View Cart</Link>
               ) : (

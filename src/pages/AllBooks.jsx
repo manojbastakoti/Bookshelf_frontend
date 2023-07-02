@@ -12,7 +12,7 @@ const BASE_URL ="http://localhost:8000/";
 
 const AllBooks = () => {
     const{profile}=useContext(UserContext)
-    const [wishlist, setWishlist] = useState([]);
+    
     console.log(profile)
     const [book,setBooks]= useState([]);
     useEffect(() => {
