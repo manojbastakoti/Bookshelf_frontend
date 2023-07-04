@@ -41,7 +41,7 @@ const Login = () => {
         // }
         setProfile({
           user_id: data.user_id,
-          // name: data.name,
+          name: data.name,
           email: data.email,
           role:data.role
         });

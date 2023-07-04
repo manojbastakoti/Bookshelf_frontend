@@ -21,6 +21,7 @@ import AllBooks from "./pages/AllBooks";
 import AddBooks from "./pages/AddBooks";
 import AllBooksDetails from "./pages/allbooksdetails";
 import { CartCountProvider } from "./context/CartCountContext";
+import { CartProvider } from "./context/CartContext";
 
 
 
@@ -34,6 +35,8 @@ function App() {
         {console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID)}
       <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
         <UserContextProvider>
+        <CartProvider>
+
         <CartCountProvider>
 
         <Routes>
@@ -64,6 +67,7 @@ function App() {
           </Route>
         </Routes>
         </CartCountProvider>
+        </CartProvider>
         </UserContextProvider>
         </GoogleOAuthProvider>
       </main>

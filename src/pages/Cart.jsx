@@ -7,6 +7,7 @@ import Meta from "../components/Meta";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
+import { CartContext } from "../context/CartContext";
 
 
 const BASE_URL = "http://localhost:8000/";
@@ -15,12 +16,13 @@ const BASE_URL = "http://localhost:8000/";
 
 
 const Cart = () => {
+  const {cart,setCart} = useContext(CartContext);
   const [totalAmount,setTotalAmount] =useState([null])
   // console.log(totalAmount)
   
   const { profile } = useContext(UserContext);
   const [userCart, setuserCart] = useState([]);
-  
+  console.log(userCart)
   const param = useParams()
 
   // console.log(userCart)
@@ -36,9 +38,13 @@ const Cart = () => {
       const data = response.data;
       console.log(data);
       setuserCart(data);
-      // console.log(book)
+      setCart(userCart)
+      console.log(cart)
+     
+      
     };
 
+    
     getCart();
   }, []);
 
@@ -70,16 +76,18 @@ const Cart = () => {
         
         
       }
-    
-    }, [userCart])
+    setCart(userCart);
+    console.log(cart)
+    }, [userCart,setCart])
+    // console.log(cart)
     
 
+    {console.log(userCart)}
 
     return (
       <>
       <Meta title={"Cart"} />
       <BreadCrumb title="Cart" />
-    {console.log(userCart)}
 
        {userCart.length === 0 ? (
 
