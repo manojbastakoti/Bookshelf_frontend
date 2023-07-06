@@ -1,9 +1,10 @@
 import { useFormik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import * as Yup from "yup";
 import { CartContext } from "../context/CartContext";
+import axios from "axios";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -11,7 +12,13 @@ const Checkout = () => {
   const [totalAmount,setTotalAmount] =useState([null]) 
   const { profile } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
+  const [shippingInfo, setshippingInfo]=useState(null)
+  const [cartProductState, setCartProductState]=useState(null)
+  const navigate = useNavigate();
+
   console.log(cart);
+  // const quantity =cart[0].quantity;
+  // console.log(quantity)
   // console.log(profile);
   // const [input, setInput] = useState({
   //   firstname: "",
@@ -34,14 +41,74 @@ const Checkout = () => {
     firstname: Yup.string().required("Firstname is Required!"),
     lastname: Yup.string().required(" Lastname is Required!"),
     address: Yup.string().required("Address is Required!"),
-    city: Yup.string().required("CIty is Required!"),
+    city: Yup.string().required("City is Required!"),
     state: Yup.string().required("State is Required!"),
     country: Yup.string().required("Country is Required!"),
   });
-  const onSubmit = (values) => {
+
+useEffect(() => {
+  let items=[]
+  for (let index = 0; index < cart.length; index++) {
+   items.push({book:cart[index].bookId._id,quantity:cart[index].quantity,price:cart[index].price})
+    // console.log(items)
+  }
+  setCartProductState(items)
+}, [])
+
+  const onSubmit = async(values) => {
     // Handle form submission
+// alert(JSON.stringify(values));
+setshippingInfo(values);
+console.log(shippingInfo)
+  // const createOrder = async () => {
+    const response = await axios({
+      method: "post",
+      url: BASE_URL + "create-order",
+      data:{
+        shippingInfo:shippingInfo,
+        totalPrice:totalAmount,
+        orderItems:cartProductState,
+
+      },
+      withCredentials: true,
+    });
+    console.log(response)
+    const data = response.data;
+    console.log(data);
+
+
+    try {
+      const response = await axios({
+        method:"post",
+        url:"http://localhost:8000/khalti",
+        data:{
+          return_url:"http://localhost:5173/checkout",
+          website_url:"http://localhost:5173",
+          purchase_order_name:"test",
+          purchase_order_id:cart[0]?._id,
+          amount:totalAmount,
+          customer_info:{
+            name:profile?.name,
+            email:profile?.email,
+           
+          }
+         
+        }
+
+      });
+      const { pidx, payment_url} = response.data;
+      window.location.href = payment_url;
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+  // };
+  // createOrder();
     console.log(values);
+    // navigate("/payment")
   };
+
 
   const formik = useFormik({
     initialValues,
@@ -50,12 +117,13 @@ const Checkout = () => {
     // validate,
   });
 
+
   useEffect(() => {
     let sum=0;
     for (let index = 0; index < cart?.length; index++) {
       sum =sum + (Number(cart[index].quantity)*cart[index].price)
       setTotalAmount(sum);
-      console.log(totalAmount)
+      // console.log(totalAmount)
       
     }
   setCart(cart);
@@ -64,6 +132,7 @@ const Checkout = () => {
 
   return (
     <>
+    {console.log(cart)}
       <div className="grid grid-cols-12 gap-6 max-w-screen-2xl mx-auto py-10 ">
         <div className="col-span-6">
           <div className="checkout-left-data ">

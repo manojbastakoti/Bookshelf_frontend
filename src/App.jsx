@@ -22,6 +22,7 @@ import AddBooks from "./pages/AddBooks";
 import AllBooksDetails from "./pages/allbooksdetails";
 import { CartCountProvider } from "./context/CartCountContext";
 import { CartProvider } from "./context/CartContext";
+import Khalti from "./components/khalti/khalti";
 
 
 
@@ -41,6 +42,7 @@ function App() {
 
         <Routes>
           
+            <Route path="/payment" element={<Khalti/>} />
           <Route path="/" element={<Common />}>
             <Route index element={<Home/>} />
             <Route path="/home" element={<Home/>} />
@@ -58,6 +60,7 @@ function App() {
             <Route path="/contact" element={<Contact/>} />
             <Route path="/wishlist" element={<Wishlist/>} />
             <Route path="/checkout" element={<Checkout/>} />
+
 
             <Route path="/cart" element={<Cart/>} />
             <Route path="/create-blog" element={<CreateBlog/>}/>

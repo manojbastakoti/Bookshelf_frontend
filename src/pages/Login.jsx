@@ -17,7 +17,8 @@ const Login = () => {
   const [googleUser, setGoogleUser] = useState(null);
   const [passwordPreview, setPasswordPreview] = useState(false);
 
-  const { setProfile } = useContext(UserContext);
+  const { profile,setProfile } = useContext(UserContext);
+  console.log(profile)
 
   const navigate = useNavigate();
 
@@ -45,10 +46,15 @@ const Login = () => {
           email: data.email,
           role:data.role
         });
+     
 
-        navigate("/");
+          console.log(profile);
+          localStorage.setItem('user_Info', JSON.stringify(profile));
+          navigate("/");
+       
       };
       googleApiLogin();
+
     }
   }, [googleUser]);
   const [error, setError] = useState(null);
@@ -82,10 +88,13 @@ const Login = () => {
 
       setProfile({
         user_id: data.data.user_id,
-        // name: data.data.name,
+        name: data.data.name,
         email: data.data.email,
         role:data.data.role
       });
+
+      localStorage.setItem('user_Info', JSON.stringify(profile));
+      console.log(profile)
 
       // actions.resetForm();
       navigate("/home");
