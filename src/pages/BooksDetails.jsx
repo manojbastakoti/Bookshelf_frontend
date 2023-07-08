@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
@@ -8,8 +8,14 @@ import Meta from "../components/Meta";
 const BASE_URL = "http://localhost:8000/";
 
 const BooksDetails = () => {
+  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+  const [wishlist, setWishlist] = useState([]);
   const [book, setBook] = useState(null);
+
+
   const param = useParams();
+  const bookId = param.id;
+  console.log(bookId)
 //   const navigate = useNavigate();
   useEffect(() => {
     const getPopularBook = async () => {
@@ -26,6 +32,23 @@ const BooksDetails = () => {
     getPopularBook();
   }, []);
 
+  const addPopularBookToWishlist = async () => {
+    const response = await axios({
+      method: "put",
+      url: BASE_URL + "popularBook/wishlist",
+      data: {
+        bookId,
+      },
+
+      withCredentials: true,
+    });
+    console.log(response);
+    const data = response.data;
+    console.log(data);
+    setWishlist(data);
+    setIsAddedToWishlist(true);
+  };
+
   if (!book) return "";
   return (
     <>
@@ -34,9 +57,30 @@ const BooksDetails = () => {
       <div className="max-w-screen-2xl grid grid-cols-1 md:grid-cols-12 mx-auto mt-10 dark:text-white mb-16">
         <div className="images text-center col-span-3 ">
           <img src={book.Image} className="max-w-sm mx-auto" alt="books" />
-          <button className="bg-slate-400 hover:bg-slate-500 rounded-md p-3 w-[80%] mt-5">
+          <button
+            type="button"
+            className="bg-slate-400 hover:bg-slate-500 rounded-md p-3 w-[80%] mt-5"
+            onClick={() => {
+              if (isAddedToWishlist  === true) {
+                navigate("/wishlist");
+              } else {
+                addPopularBookToWishlist();
+              }
+            }}>
+                    {/* {isAddedToWishlist ? (
+                          <Link to="/wishlist">View Wishlist</Link>
+                        ) : (
+                          "Add To Wishlist"
+                        )}
+          > */}
             <i className="fa-solid fa-heart fa-lg text-red-600"></i>
-            <span className="ml-1">Add To WishList</span>
+            <span className="ml-1">
+              {isAddedToWishlist ? (
+                <Link to="/wishlist">View Wishlist</Link>
+              ) : (
+                "Add To Wishlist"
+              )}
+            </span>
           </button>
         </div>
         <div className="description p-2 col-span-7 mr-2">

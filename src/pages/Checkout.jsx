@@ -82,10 +82,10 @@ console.log(shippingInfo)
         method:"post",
         url:"http://localhost:8000/khalti",
         data:{
-          return_url:"http://localhost:5173/checkout",
+          return_url:"http://localhost:5173/cart",
           website_url:"http://localhost:5173",
           purchase_order_name:"test",
-          purchase_order_id:cart[0]?._id,
+          purchase_order_id:"test123",
           amount:totalAmount,
           customer_info:{
             name:profile?.name,
