@@ -1,21 +1,33 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
+import { CartCountContext } from "../context/CartCountContext";
 
 const BASE_URL = "http://localhost:8000/";
 
 const BooksDetails = () => {
+  const { updateCartCount } = useContext(CartCountContext);
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const [wishlist, setWishlist] = useState([]);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
+  const[cart, setCart] = useState([]);
   const [book, setBook] = useState(null);
 
 
   const param = useParams();
   const bookId = param.id;
   console.log(bookId)
+
+//   const bookQuantity = book.quantity;
+//   const price =book.price;
+//   console.log(price)
+//   console.log(bookQuantity)
+// console.log(cart)
+
 //   const navigate = useNavigate();
   useEffect(() => {
     const getPopularBook = async () => {
@@ -48,6 +60,60 @@ const BooksDetails = () => {
     setWishlist(data);
     setIsAddedToWishlist(true);
   };
+
+  // //update quantity
+  // const [quantity, setQuantity] = useState(1);
+  // const [isOutOfStock, setIsOutOfStock] = useState(false);
+
+  // const decreaseQuantity = () => {
+  //   if (quantity > 1) {
+  //     setQuantity(quantity - 1);
+  //     setIsOutOfStock(false);
+  //   }
+  // };
+
+  // const increaseQuantity = () => {
+  //   if (quantity < bookQuantity) {
+  //     setQuantity(quantity + 1);
+  //     setIsOutOfStock(false); // Reset out-of-stock message
+  //   } else {
+  //     setIsOutOfStock(true); // Display out-of-stock message
+  //   }
+  // };
+
+//addtocart
+  
+// const addToCart = async () => {
+//   if (quantity > bookQuantity) {
+//     setIsOutOfStock(true);
+//     return;
+//   }
+//   const response = await axios({
+//     method: "post",
+//     url: BASE_URL + "cart",
+//     data: {
+//      price,
+//       bookId,
+//       quantity
+//     },
+
+//     withCredentials: true,
+//   });
+//   console.log(response);
+//   const data = response.data;
+//   console.log(data);
+//   setCart(data);
+//   setIsOutOfStock(false);
+
+
+//   setIsAddedToCart(true);
+//   // console.log(cart)
+//   if (!cart.some((item) => item.bookId === bookId)) {
+//   updateCartCount((previousCount) => previousCount + 1);
+// }
+// };
+
+
 
   if (!book) return "";
   return (

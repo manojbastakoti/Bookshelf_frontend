@@ -168,7 +168,7 @@ const Cart = () => {
           <div className="py-2 mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-baseline">
               <Link to="/allbooks" className="button dark:text-white">
-                <i class="fa-solid fa-angle-left mr-2"></i>
+                <i className="fa-solid fa-angle-left mr-2"></i>
                 Continue To Shopping
               </Link>
               {

@@ -22,6 +22,7 @@ import AddBooks from "./pages/AddBooks";
 import AllBooksDetails from "./pages/allbooksdetails";
 import { CartCountProvider } from "./context/CartCountContext";
 import { CartProvider } from "./context/CartContext";
+import Confirm from "./pages/Confirm";
 // import Khalti from "./components/khalti/khalti";
 
 
@@ -42,7 +43,7 @@ function App() {
 
         <Routes>
           
-            {/* <Route path="/payment" element={<Khalti/>} /> */}
+            <Route path="/khalti/confirm" element={<Confirm/>} />
           <Route path="/" element={<Common />}>
             <Route index element={<Home/>} />
             <Route path="/home" element={<Home/>} />

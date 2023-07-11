@@ -31,7 +31,8 @@ const Books = ({_id,title,cover,author,price}) => {
           </p>
         </div>
         <button className="block w-[90%] sm:w-[100%] mt-2 mx-auto sm:px-2 py-2 rounded-md bg-blue-400 hover:bg-blue-500 dark:text-white text-[11px] sm:text-lg">
-          ADD TO CART
+        <Link to={`/allbookdetails/${_id}`}>ADD TO CART</Link>
+          
         </button>
       </div>
     </div>

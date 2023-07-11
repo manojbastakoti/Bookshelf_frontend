@@ -32,7 +32,7 @@ const PopularBooksLanding = () => {
   <h1 className='text-3xl mb-2'>Popular Books</h1>
   <p>Our popular books are updated based on user reviews and ratings.</p>
   </div>
-<div className="blog-wrapper max-w-screen-2xl mx-auto grid md:grid-cols-5 grid-cols-2 gap-10">
+<div className="blog-wrapper max-w-screen-2xl min-h-screen mx-auto grid md:grid-cols-5 grid-cols-2 gap-10">
 {popularBooks.map((popularBook,index)=>(
   <PopularBooks {...popularBook} key={index}/>
 ))}

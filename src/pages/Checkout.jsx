@@ -82,7 +82,7 @@ console.log(shippingInfo)
         method:"post",
         url:"http://localhost:8000/khalti",
         data:{
-          return_url:"http://localhost:5173/cart",
+          return_url:"http://localhost:5173/khalti/confirm",
           website_url:"http://localhost:5173",
           purchase_order_name:"test",
           purchase_order_id:"test123",
@@ -98,6 +98,8 @@ console.log(shippingInfo)
       });
       const { pidx, payment_url} = response.data;
       window.location.href = payment_url;
+      // window.location.href = pidx;
+
       
     } catch (error) {
       console.log(error)
@@ -129,6 +131,7 @@ console.log(shippingInfo)
   setCart(cart);
   // console.log(cart)
   }, [cart])
+
 
   return (
     <>
@@ -188,7 +191,7 @@ console.log(shippingInfo)
                   onChange={formik.handleChange("country")}
                   onBlur={formik.handleBlur("country")}
                 >
-                  <option value="" selected disabled>
+                  <option value=""  disabled>
                     Select Country
                   </option>
                   <option value="Nepal">Nepal</option>

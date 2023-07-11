@@ -9,7 +9,10 @@ const Common = () => {
   return (
     <main>
         <Navbar/>
+        <div className="main min-h-screen">
+
         <Outlet/>
+        </div>
         <ToastContainer 
         position="bottom-left"
         autoClose={5000}
