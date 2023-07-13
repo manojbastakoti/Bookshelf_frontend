@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import Footer from '../components/Footer'
 import PopularBooks from '../components/PopularBooks';
 
@@ -7,11 +8,12 @@ const BASE_URL ="http://localhost:8000/";
 
 const PopularBooksLanding = () => {
   const [popularBooks,setPopularBooks]= useState([]);
+  const {keyword}=useParams();
   useEffect(() => {
-    const getPopularBooks =async()=>{
+    const getPopularBooks =async(keyword="")=>{
       const response =await axios({
         method:"get",
-        url:BASE_URL + "popularBooks",
+        url:`${BASE_URL}popularBooks?keyword=${keyword}`,
         withCredentials:true,
       });
       console.log(response)
@@ -21,8 +23,8 @@ const PopularBooksLanding = () => {
       console.log(popularBooks)
 
     } 
-      getPopularBooks();
-    }, [])
+      getPopularBooks(keyword);
+    }, [keyword])
   
   return (
     <>

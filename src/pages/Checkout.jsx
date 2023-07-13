@@ -9,14 +9,13 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8000/";
 
 const Checkout = () => {
-  const [totalAmount,setTotalAmount] =useState([null]) 
+  const [totalAmount, setTotalAmount] = useState([null]);
   const { profile } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
-  const [shippingInfo, setshippingInfo]=useState(null)
-  const [cartProductState, setCartProductState]=useState(null)
+  const [cartProductState, setCartProductState] = useState(null);
   const navigate = useNavigate();
 
-  console.log(cart);
+  // console.log(cart);
   // const quantity =cart[0].quantity;
   // console.log(quantity)
   // console.log(profile);
@@ -46,71 +45,66 @@ const Checkout = () => {
     country: Yup.string().required("Country is Required!"),
   });
 
-useEffect(() => {
-  let items=[]
-  for (let index = 0; index < cart.length; index++) {
-   items.push({book:cart[index].bookId._id,quantity:cart[index].quantity,price:cart[index].price})
-    // console.log(items)
-  }
-  setCartProductState(items)
-}, [])
+  useEffect(() => {
+    let items = [];
+    for (let index = 0; index < cart.length; index++) {
+      items.push({
+        book: cart[index].bookId._id,
+        quantity: cart[index].quantity,
+        price: cart[index].price,
+      });
+      // console.log(items)
+    }
+    setCartProductState(items);
+  }, []);
 
-  const onSubmit = async(values) => {
+  const onSubmit = async (values) => {
+    console.log(values);
     // Handle form submission
-// alert(JSON.stringify(values));
-setshippingInfo(values);
-console.log(shippingInfo)
-  // const createOrder = async () => {
-    const response = await axios({
-      method: "post",
-      url: BASE_URL + "create-order",
-      data:{
-        shippingInfo:shippingInfo,
-        totalPrice:totalAmount,
-        orderItems:cartProductState,
-
-      },
-      withCredentials: true,
-    });
-    console.log(response)
-    const data = response.data;
-    console.log(data);
-
+    // alert(JSON.stringify(values));
+    // const createOrder = async () => {
 
     try {
-      const response = await axios({
-        method:"post",
-        url:"http://localhost:8000/khalti",
-        data:{
-          return_url:"http://localhost:5173/khalti/confirm",
-          website_url:"http://localhost:5173",
-          purchase_order_name:"test",
-          purchase_order_id:"test123",
-          amount:totalAmount,
-          customer_info:{
-            name:profile?.name,
-            email:profile?.email,
-           
-          }
-         
-        }
-
+      const response1 = await axios({
+        method: "post",
+        url: BASE_URL + "create-order",
+        data: {
+          shippingInfo: values,
+          totalPrice: totalAmount,
+          orderItems: cartProductState,
+        },
+        withCredentials: true,
       });
-      const { pidx, payment_url} = response.data;
+      console.log(response1);
+      const data = response1.data;
+      console.log(data);
+
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:8000/khalti",
+        data: {
+          return_url: "http://localhost:5173/khalti/confirm",
+          website_url: "http://localhost:5173",
+          purchase_order_name: "test",
+          purchase_order_id: "test123",
+          amount: totalAmount,
+          customer_info: {
+            name: profile?.name,
+            email: profile?.email,
+          },
+        },
+      });
+      const { pidx, payment_url } = response.data;
       window.location.href = payment_url;
       // window.location.href = pidx;
-
-      
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-  // };
-  // createOrder();
+    // };
+    // createOrder();
     console.log(values);
     // navigate("/payment")
   };
-
 
   const formik = useFormik({
     initialValues,
@@ -119,23 +113,22 @@ console.log(shippingInfo)
     // validate,
   });
 
-
   useEffect(() => {
-    let sum=0;
+    let sum = 0;
     for (let index = 0; index < cart?.length; index++) {
-      sum =sum + (Number(cart[index].quantity)*cart[index].price)
-      setTotalAmount(sum);
+      sum = sum + Number(cart[index].quantity) * cart[index].price;
+      const totalSum = `${sum}00`;
+      const send = Number(totalSum)
+      setTotalAmount(send);
       // console.log(totalAmount)
-      
     }
-  setCart(cart);
-  // console.log(cart)
-  }, [cart])
-
+    setCart(cart);
+    // console.log(cart)
+  }, [cart]);
 
   return (
     <>
-    {console.log(cart)}
+      {/* {console.log(cart)} */}
       <div className="grid grid-cols-12 gap-6 max-w-screen-2xl mx-auto py-10 ">
         <div className="col-span-6">
           <div className="checkout-left-data ">
@@ -191,7 +184,7 @@ console.log(shippingInfo)
                   onChange={formik.handleChange("country")}
                   onBlur={formik.handleBlur("country")}
                 >
-                  <option value=""  disabled>
+                  <option value="" disabled>
                     Select Country
                   </option>
                   <option value="Nepal">Nepal</option>
@@ -335,32 +328,35 @@ console.log(shippingInfo)
 
         {/* cart-items */}
         <div className="col-span-6">
-        {cart?.map((item) => (
-          <div className="col-span-5  p-2 " key={item._id}>
-            <div className="border-b border-gray-400 py-4">
-              <div className="flex items-center space-x-10 mb-2">
-                <div className="w-3/4 flex items-center space-x-4">
-                  <div className="w-1/4 relative">
-                    <span className="bg-gray-500 text-white rounded-full p-2 absolute -top-3 -right-2 dark:text-white">
-                      {item.quantity}
-                    </span>
-                    <img
-                      className="w-full"
-                      src={`${BASE_URL}${item.bookId.cover}`}
-                      alt="product"
-                    />
+          {cart?.map((item) => (
+            <div className="col-span-5  p-2 " key={item._id}>
+              <div className="border-b border-gray-400 py-4">
+                <div className="flex items-center space-x-10 mb-2">
+                  <div className="w-3/4 flex items-center space-x-4">
+                    <div className="w-1/4 relative">
+                      <span className="bg-gray-500 text-white rounded-full p-2 absolute -top-3 -right-2 dark:text-white">
+                        {item.quantity}
+                      </span>
+                      <img
+                        className="w-full"
+                        src={`${BASE_URL}${item.bookId.cover}`}
+                        alt="product"
+                      />
+                    </div>
+                    <div>
+                      <h5 className="total-price dark:text-white">
+                        Price:{item.price}
+                      </h5>
+                    </div>
                   </div>
-                  <div>
-                  <h5 className="total-price dark:text-white">Price:{item.price}</h5>
-                  
-                </div>
-                </div>
-                <div className="flex-grow">
-                  <h5 className="total dark:text-white">Subtotal:{item.price * item.quantity}</h5>
+                  <div className="flex-grow">
+                    <h5 className="total dark:text-white">
+                      Subtotal:{item.price * item.quantity}
+                    </h5>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* <div className="border-b border-gray-400 py-4">
+              {/* <div className="border-b border-gray-400 py-4">
               <div className="flex justify-between items-center">
                 <p className="total dark:text-white">Subtotal</p>
                 <p className="total-price dark:text-white">
@@ -372,17 +368,19 @@ console.log(shippingInfo)
               <p className="mb-0 total dark:text-white">Shipping</p>
               <p className="mb-0 total-price dark:text-white">Rs 10000</p>
             </div> */}
-            {/* </div> */}
-            {/* <div className="flex justify-between items-center border-b py-4">
+              {/* </div> */}
+              {/* <div className="flex justify-between items-center border-b py-4">
               <h4 className="total dark:text-white">Total</h4>
               <h5 className="total-price dark:text-white">Rs 10000</h5>
             </div> */}
-          </div>
-        ))}
+            </div>
+          ))}
 
-        <div className="flex flex-col items-end mr-10">
-                <h1 className="text-xl font-bold dark:text-white ">Total:Rs{totalAmount}</h1>
-                </div>
+          <div className="flex flex-col items-end mr-10">
+            <h1 className="text-xl font-bold dark:text-white ">
+              Total:Rs{totalAmount/100}
+            </h1>
+          </div>
         </div>
       </div>
     </>

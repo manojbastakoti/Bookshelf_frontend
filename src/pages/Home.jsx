@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import Carousel from "../components/Carousel";
+import Chat from "../components/Chat";
 import Footer from "../components/Footer";
 import Home_popular from "../components/Home_popular";
 import Meta from "../components/Meta";
@@ -15,7 +16,7 @@ const Home = () => {
     <div className="min-h-screen">
       <Carousel/>
       <Home_popular/>
-
+    <Chat/>
       <Footer/>
     </div>
     </>

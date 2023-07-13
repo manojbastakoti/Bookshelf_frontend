@@ -28,3 +28,37 @@ body{
   .blog-wrapper::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
   }
+
+  .typing span {
+    width: 5px;
+    height: 5px;
+    background-color: #000;
+    display: inline-block;
+    margin: 2px;
+    border-radius: 50%;
+  }
+  
+  .typing span:nth-child(1) {
+    animation: bounce 1s infinite;
+  }
+  
+  .typing span:nth-child(2) {
+    animation: bounce 1s infinite 0.2s;
+  }
+  
+  .typing span:nth-child(3) {
+    animation: bounce 1s infinite 0.4s;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  

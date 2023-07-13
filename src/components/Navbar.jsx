@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../context/UserContext";
 import { CartCountContext } from "../context/CartCountContext";
 
-const BASE_URL = "http://localhost:8000/profile_info";
+const BASE_URL = "http://localhost:8000/";
 
 const Navbar = () => {
+  const [text,setText]=useState("search")
   const { cartCount } = useContext(CartCountContext);
   const { profile, setProfile } = useContext(UserContext);
+  const navigate =useNavigate()
   const [token, setToken] = useState(Cookies.get("auth") ?? null);
   const [theme, setTheme] = useState(
     localStorage.getItem("mernTheme") ?? "light"
@@ -21,7 +23,7 @@ const Navbar = () => {
     const getUser = async () => {
       const response = await axios({
         method: "post",
-        url: BASE_URL,
+        url: BASE_URL +"profile_info",
         data: {
           token: token,
         },
@@ -57,6 +59,37 @@ const Navbar = () => {
     setProfile(null);
   };
 
+  // const handleSearch=async e=>{
+  //   setText(e.target.value);
+
+  //   try {
+  //     const response = await axios({
+  //       method: "post",
+  //       url: BASE_URL + "search",
+  //       data: {
+  //         type: 'text',
+  //         query: e.target.value
+  //       },
+       
+  //     });
+  //     const data =response.data;
+      
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   };
+  
+  const handleSubmit = async()=>{
+    const search = text.search
+    if (search?.trim()){
+      navigate(`/search/${search}`);
+
+    }
+    // else{
+    //   navigate("/allbooks")
+    // }
+  }
+
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -76,7 +109,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="links hidden lg:flex justify-end gap-5 items-center  dark:text-white">
-          <form className="flex items-center">
+          <form className="flex items-center" onSubmit={handleSubmit}>
             <label htmlFor="simple-search" className="sr-only">
               Search
             </label>
@@ -101,6 +134,10 @@ const Navbar = () => {
                 id="simple-search"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search"
+                onChange={(e)=>setText((prev)=>({
+                  ...prev,
+                  search:e.target.value
+                }))}
                 required
               />
             </div>

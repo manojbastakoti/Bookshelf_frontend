@@ -47,6 +47,9 @@ function App() {
           <Route path="/" element={<Common />}>
             <Route index element={<Home/>} />
             <Route path="/home" element={<Home/>} />
+            <Route path="/search/:keyword" element={<AllBooks/>} />
+            <Route path="/search/:keyword" element={<PopularBooksLanding/>} />
+
 
             <Route path="/blogs" element={<Blog/>} />
             <Route path="/login" element={<Login/>} />

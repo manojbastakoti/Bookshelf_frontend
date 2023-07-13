@@ -84,6 +84,12 @@ const Cart = () => {
 
     {console.log(userCart)}
 
+
+  if (!profile) {
+    navigate("/login");
+  }
+
+
     return (
       <>
       <Meta title={"Cart"} />

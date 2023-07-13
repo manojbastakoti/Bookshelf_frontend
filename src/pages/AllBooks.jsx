@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import { useContext } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios';
 // import PopularBooks from '../components/PopularBooks';
 import Books from '../components/Book';
 import Meta from '../components/Meta';
 import BreadCrumb from '../components/BreadCrumb';
+import PopularBooks from '../components/PopularBooks';
 
 const BASE_URL ="http://localhost:8000/";
 
 const AllBooks = () => {
     const{profile}=useContext(UserContext)
+    const {keyword}=useParams();
     
     console.log(profile)
     const [book,setBooks]= useState([]);
     useEffect(() => {
-      const getBooks =async()=>{
+      const getBooks =async(keyword="")=>{
         const response =await axios({
           method:"get",
-          url:BASE_URL + "books",
+          url:`${BASE_URL}books?keyword=${keyword}`,
           withCredentials:true,
         });
         console.log(response)
@@ -31,8 +33,8 @@ const AllBooks = () => {
       } 
 
     
-        getBooks();
-      }, [])
+        getBooks(keyword);
+      }, [keyword])
 
   return (
     <>
@@ -54,7 +56,6 @@ const AllBooks = () => {
 {book.map((book,index)=>(
   <Books {...book} key={index}/>
 ))}
-
   </div>
         </>
   )

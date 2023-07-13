@@ -27,7 +27,7 @@ const AllBooksDetails = () => {
   console.log(price)
   console.log(bookQuantity)
 console.log(cart)
-  console.log(bookId);
+ 
   //   const navigate = useNavigate();
   useEffect(() => {
     const getallBook = async () => {
@@ -104,42 +104,42 @@ console.log(cart)
     }
   };
 
-
-//addtocart
-
-  const addToCart = async () => {
-    if (quantity > bookQuantity) {
-      setIsOutOfStock(true);
-      return;
-    }
-    const response = await axios({
-      method: "post",
-      url: BASE_URL + "cart",
-      data: {
-       price,
-        bookId,
-        quantity
-      },
-
-      withCredentials: true,
-    });
-    console.log(response);
-    const data = response.data;
-    console.log(data);
-    setCart(data);
-    setIsOutOfStock(false);
-
-
-    setIsAddedToCart(true);
-    // console.log(cart)
-    if (!cart.some((item) => item.bookId === bookId)) {
-    updateCartCount((previousCount) => previousCount + 1);
-  }
-  };
+  //addtocart
   
-  //remove product from Cart
+    const addToCart = async () => {
+      if (quantity > bookQuantity) {
+        setIsOutOfStock(true);
+        return;
+      }
+      const response = await axios({
+        method: "post",
+        url: BASE_URL + "cart",
+        data: {
+         price,
+          bookId,
+          quantity
+        },
+  
+        withCredentials: true,
+      });
+      console.log(response);
+      const data = response.data;
+      console.log(data);
+      setCart(data);
+      setIsOutOfStock(false);
+  
+  
+      setIsAddedToCart(true);
+      // console.log(cart)
+      if (!cart.some((item) => item.bookId === bookId)) {
+      updateCartCount((previousCount) => previousCount + 1);
+    }
+    };
+    
+    //remove product from Cart
+  
 
-
+  
 
 
   // addToWishlist();
